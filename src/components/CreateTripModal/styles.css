@@ -1,0 +1,23 @@
+.datePicker {
+    cursor: pointer;
+    width: 150px;
+    height: 30px;
+    border-radius: 8px;
+    background: #F6F6F6;
+    color: #717171;
+    outline: none;
+    border: none;
+    padding: 0 20px;
+    resize: none;
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: normal;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .datePicker {
+        width: 125px;
+    }
+}

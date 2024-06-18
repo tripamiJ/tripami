@@ -1,0 +1,49 @@
+.userContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.leftContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    cursor: pointer;
+}
+
+.location {
+    color: #000;
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.button {
+    padding: 0;
+    height: 16.481px;
+
+    width: 45px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #DCE8F5;
+}
+
+.buttonText {
+    color: #5F5F5F;
+    font-family: Gilroy, sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.postedAgo {
+    color: #AEAEAE;
+    font-family: Gilroy, sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+}

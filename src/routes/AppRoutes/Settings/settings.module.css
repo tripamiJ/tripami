@@ -1,0 +1,259 @@
+.main {
+    display: flex;
+    width: 100vw;
+    height: 100%;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.container {
+    background: #DAE0E1;
+    flex-grow: 1;
+    padding: 23px 40px 38px;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background: rgba(172, 172, 172, 0.22);
+}
+
+.titleContainer {
+    margin-top: 17px;
+    margin-bottom: 22px;
+    display: flex;
+    justify-content: center;
+}
+
+.topContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 34px;
+}
+
+@media (min-width: 768px) {
+    .topContainer {
+        flex-direction: row;
+        align-items: flex-end;
+    }
+}
+
+.avatarContainer {
+    display: flex;
+    width: fit-content;
+    position: relative;
+}
+
+.avatar {
+    width: 138px;
+    height: 138px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
+.cameraContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 31px;
+    height: 31px;
+    flex-shrink: 0;
+    background: #FFFFFF;
+    border-radius: 50%;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    cursor: pointer;
+}
+
+.userNameInput {
+    color: #262626;
+    font-family: Gilroy, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    border-bottom: 1px solid #ACACAC;
+
+    height: 30px;
+}
+
+.inputContainer {
+    position: relative;
+}
+
+.fatPencil {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.smallText {
+    margin-top: 40px;
+    margin-bottom: 40px;
+
+    color: #717171;
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.inputsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 50px;
+    margin-top: 20px;
+}
+
+.sepatarorContainer {
+    display: flex;
+    gap: 70px;
+
+    margin-left: 14px;
+    margin-top: 28px;
+    margin-bottom: 28px;
+}
+
+.separator {
+    display: flex;
+    flex-grow: 1;
+    height: 1px;
+    background: rgba(174, 174, 174, 0.45);
+}
+
+.notificationsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 45px;
+    flex-shrink: 0;
+    padding: 5px 20px;
+
+    border-radius: 44px;
+    border: 1px solid #5280F4;
+    margin-bottom: 74px;
+    box-sizing: border-box;
+}
+
+.notificationsText {
+    color: #000;
+    font-size: 18px;
+    font-family: Gilroy, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.country {
+    color: #000;
+    font-family: Gilroy, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.changePassword {
+    color: #000;
+    font-family: Gilroy, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+}
+
+.primary {
+    color: #717171;
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    margin-top: 10px;
+}
+
+.buttonsContainer {
+    width: 100%;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    gap: 40px;
+}
+
+.save {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #FFF;
+    font-family: Gilroy, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    border-radius: 25px;
+    background: #FF4D00;
+    flex-basis: 200px;
+
+    max-height: 50px;
+}
+
+.cancel {
+    background: #717171;
+}
+
+.dropdownContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    margin-top: 23px;
+    margin-bottom: 40px;
+}
+
+@media (min-width: 768px) {
+    .line {
+        width: 50%;
+    }
+
+    .titleContainer {
+        justify-content: flex-start;
+    }
+
+    .inputsContainer {
+        width: 70%;
+        flex-direction: row;
+    }
+
+    .sepatarorContainer {
+        width: 50%;
+    }
+
+    .notificationsContainer {
+        width: calc(35% - 25px);
+    }
+
+    .dropdownContainer {
+        flex-direction: row;
+    }
+
+    .buttonsContainer {
+        flex-direction: row;
+    }
+}
+
+.dropdown {
+    background: transparent;
+}

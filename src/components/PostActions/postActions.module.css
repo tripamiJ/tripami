@@ -1,0 +1,65 @@
+.footer {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    height: 35px;
+    color: #aeaeae;
+    gap: 10px;
+    padding: 12.5px 0;
+
+    width: 100%;
+    justify-content: space-between;
+}
+
+.commentsContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: auto 0px auto 5px;
+}
+
+.shareContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 5px;
+    box-sizing: border-box;
+
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.shareContainer:hover {
+    background-color: #f0f0f0;
+    border: 1px solid #646cff;
+    border-radius: 8px;
+} 
+
+.img {
+    cursor: pointer;
+}
+
+.comments {
+    display: flex;
+    font-weight: 400;
+    line-height: 15px;
+    font-size: 10px;
+}
+
+.share {
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+
+    display: none;
+}
+
+.liked {
+    color: #55BEF5;
+}
+
+@media (min-width: 768px) {
+    .share {
+        display: block;
+    }
+}

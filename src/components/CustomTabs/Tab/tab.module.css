@@ -1,0 +1,36 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex: 1 1 0px;
+    padding: 18px 0;
+
+    gap: 8px;
+
+    border-bottom: 1px solid #A4A4A4;
+}
+
+.container--active {
+    border-bottom-color: #FF4D00;
+}
+
+.label {
+    color: #A4A4A4;
+
+    font-family: Gilroy, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+@media (max-width: 768px) {
+    .label {
+        font-size: 16px;
+    }
+}
+
+.label--active {
+    color: #FF4D00;
+}

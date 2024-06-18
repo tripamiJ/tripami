@@ -1,0 +1,17 @@
+.titleContainer {
+    height: max-content;
+    padding: 9px 56px;
+    width: fit-content;
+
+    border-radius: 32px;
+    background: #FFF;
+}
+
+.title {
+    color: #262626;
+    font-family: Gilroy, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}

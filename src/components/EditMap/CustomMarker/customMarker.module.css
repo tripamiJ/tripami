@@ -1,0 +1,27 @@
+.marker {
+    cursor: pointer;
+    display: flex;
+
+    position: absolute;
+    top: -14px;
+    left: 0;
+}
+
+.animatedMarker {
+    animation: __bounceInDown 500ms linear;
+    animation-fill-mode: both;
+}
+
+@keyframes __bounceInDown {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        scale: 1.2;
+        transform: translateY(-10%);
+    }
+    100% {
+        scale: 1.2;
+        transform: translateY(0);
+    }
+}

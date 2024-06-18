@@ -1,0 +1,251 @@
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: all 500ms ease-in-out;
+    z-index: 99999;
+}
+
+.ReactModal__Overlay--after-open {
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+    opacity: 0;
+}
+
+.ReactModal__Content {
+    padding: 10px;
+}
+
+.ReactModal__Content--after-open {
+    padding: 0;
+    inset: 10% 20% !important;
+    background-color: rgba(172, 172, 172, 0.22);
+    min-height: max-content;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.selectedImageContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+}
+
+.selectedImage {
+    object-fit: contain;
+    height: 400px;
+}
+
+@media screen and (max-width: 1100px){
+    .selectedImage {
+        height: 300px;
+    }
+}
+
+@media screen and (max-width: 850px){
+    .selectedImage {
+        height: 150px;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .selectedImage {
+        height: 150px;
+    }
+}
+
+
+
+.image {
+    max-height: 80px;
+    overflow: hidden;
+    object-fit: contain;
+    border-radius: 10px;
+    opacity: .5;
+    transition: scale 500ms ease-in-out, opacity 500ms ease-in-out;
+}
+
+@media screen and (max-width: 1100px){
+    .image {
+        max-height: 75px;
+    }
+}
+
+@media screen and (max-width: 850px){
+    .image {
+        max-height: 75px;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .image {
+        max-height: 50px;
+    }
+}
+
+.image:hover {
+    cursor: pointer;
+    scale: 1.05;
+    opacity: 1;
+}
+
+.slider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    bottom: 5px;
+    transition: opacity 500ms ease-in-out;
+}
+
+
+
+.slider:hover {
+    opacity: .5;
+}
+
+.description {
+    display: inline-block;
+    font-size: 12px;
+    color: grey;
+    padding: 20px;
+    text-align: justify;
+}
+
+.descriptionContainer {
+    display: block;
+    /* min-height: 40vh; */
+    max-height: 40vh;
+    overflow-y: scroll;
+}
+
+@media (min-width: 1200px){
+    .modalContainer {
+        width: 40%;
+        margin: 100px auto;
+        background-color: white;
+    }
+
+    .descriptionContainer {
+        display: block;
+        max-height: 30vh;
+        overflow-y: auto;
+    }
+
+    .description {
+        font-size: 20px;
+    }
+
+    /* .selectedImageContainer {
+        width: 100%;
+        height: 100%;
+    } */
+
+    .selectedImage {
+        height: 400px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .modal {
+        padding: 0;
+        border: none;
+    }
+}
+
+@media (max-width: 1200px){
+    .modalContainer {
+        width: 60%;
+        margin: 100px auto;
+        background-color: white;
+    }
+
+    .descriptionContainer {
+        display: block;
+        max-height: 30vh;
+        overflow-y: auto;
+    }
+
+    .description {
+        font-size: 20px;
+    }
+
+    /* .selectedImageContainer {
+        width: 100%;
+        height: 100%;
+    } */
+
+    .selectedImage {
+        height: 400px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .modal {
+        padding: 0;
+    }
+}
+
+
+@media (max-width: 768px){
+    .modalContainer {
+        width: 70%;
+        margin: 100px auto;
+        background-color: white;
+    }
+
+    .descriptionContainer {
+        display: block;
+        max-height: 30vh;
+        overflow-y: auto;
+    }
+
+    /* .selectedImageContainer {
+        width: 100%;
+        height: 100%;
+    } */
+
+    .selectedImage {
+        height: 400px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .modal {
+        padding: 0;
+    }
+}
+
+@media (max-width: 500px){
+    .modalContainer {
+        width: 90%;
+        margin: 100px auto;
+        background-color: white;
+        height: max-content;
+        margin: 100px auto;
+    }
+
+    /* .selectedImageContainer {
+        width: 100%;
+        height: 100%;
+    } */
+
+    .selectedImage {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .modal {
+        padding: 0;
+    }
+}

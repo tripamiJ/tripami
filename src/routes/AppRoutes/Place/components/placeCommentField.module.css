@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    border: 1px solid rgba(174, 174, 174, 0.64);
+    background: #FFF;
+
+    height: 189px;
+
+    padding: 20px 15px;
+}
+
+.input {
+    border: none;
+    outline: none;
+    width: 100%;
+    flex-grow: 1;
+
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+
+    resize: none;
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 27px;
+}
+
+.commentButton {
+    border-radius: 23px;
+    background: #FF4D00;
+    color: #FFF;
+}
+
+.cancelButton {
+    border-radius: 23px;
+    background: #717171;
+    color: #FFF;
+}

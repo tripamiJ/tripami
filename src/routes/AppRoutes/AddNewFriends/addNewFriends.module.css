@@ -1,0 +1,150 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background: #DAE0E1;
+    
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+}
+
+.subTitle {
+    color: #717171;
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+
+    margin: 20px 0;
+}
+
+.usersContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 40px;
+}
+
+@media (min-width: 768px) {
+    .usersContainer {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+.cardMain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-items: center;
+
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .cardMain {
+    }
+}
+
+.userCard {
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid rgba(172, 172, 172, 0.22);
+    padding: 20px;
+    /* padding-top: 7px;
+    padding-bottom: 21px; */
+    cursor: pointer;
+    align-items: center;
+
+    flex-grow: 1;
+}
+
+@media (min-width: 768px) {
+    .userCard {
+        padding: 10px;
+    }
+}
+
+.avatar {
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+
+    border-radius: 50%;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+.userName {
+    color: #000;
+    font-family: Gilroy, sans-serif;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.whereTo {
+    display: flex;
+    gap: 10px;
+
+    color: #717171;
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.orangeText {
+    color: #FF4D00;
+}
+
+.addToFriendButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    border-radius: 20px;
+
+    background: #DCE8F5;
+
+
+    color: #5F5F5F;
+    font-family: Gilroy, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .addToFriendButton {
+        font-size: 12px;
+    }
+}
+
+.removeFriend {
+    background-color: #FF4D00;
+    color: #FFFFFF;
+}
+
+.invited {
+    cursor: default;
+}

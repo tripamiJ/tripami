@@ -1,0 +1,31 @@
+.mainContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 30px;
+    box-sizing: border-box;
+
+    background-image: url('../../../assets/images/LoginBackground.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.replies_container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

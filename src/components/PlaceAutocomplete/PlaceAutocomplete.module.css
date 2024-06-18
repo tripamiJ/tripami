@@ -1,0 +1,272 @@
+.outer_container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 21px 12px 40px 12px;
+}
+
+.dropdown {
+    scrollbar-width: none;
+    font-size: 15px;
+    font-weight: 500;
+    border-end-end-radius: 10px;
+    z-index: 3;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 33px 8px 21px 8px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.button {
+    width: 40%;
+    border-radius: 25px;
+    background: #ff4d00;
+    color: #fff;
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    height: 49px;
+    cursor: pointer;
+}
+/* 
+@media (min-width: 768px) {
+    font-size: 17px;
+} */
+
+.button-gray {
+    background-color: #717171;
+}
+
+.bottomRow {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.startContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 22px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    gap: 48px;
+}
+
+img {
+    margin: 0;
+}
+
+.inputContainer {
+    position: relative;
+    width: 100%;
+    display: flexww;
+    box-sizing: border-box;
+    line-height: 46px;
+    background: #F6F6F6;
+    border: 1px solid #DEDED7;
+    border-radius: 24px;
+}
+
+.inputContainerLoading {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.place_icon {
+    position: absolute;
+    left: 17px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 20px;
+}
+
+.input {
+    width: 100%;
+    height: 36px;
+    /* flex-shrink: 0; */
+
+    background: #F6F6F6;
+
+    color: #1a1a1a;
+    border-radius: 24px;
+    outline: none;
+    border: none;
+    padding: 0 20px;
+    padding-left: 40px;
+
+    background-color: #FEFEFE;
+    resize: none;
+
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    height: 48px;
+
+
+    box-sizing: border-box;
+}
+
+.input::-webkit-calendar-picker-indicator {
+    color: #1a1a1a;
+}
+
+.uploadContainer {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    outline: none;
+    background-color: rgb(246, 246, 246);
+    border-radius: 20px;
+    gap: 20px;
+}
+.geocodes_top {
+    display: flex;
+    height: 20px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.geocodes_top button {
+    height: 20px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    .uploadContainer {
+        flex-direction: row;
+    }
+}
+
+.dragText {
+    color: black;
+    line-height: 41px;
+}
+
+.buttonUpload {
+    width: 123px;
+    height: 32px;
+    flex-shrink: 0;
+
+    border-radius: 18px;
+    border: 1px solid #000;
+
+    color: #000;
+    font-family: Gilroy, sans-serif;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 12px;
+}
+
+.buttonUpload:hover {
+    border-color: #55BEF5;
+}
+
+.topContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.textArea {
+    margin-top: 20px;
+    padding-top: 20px;
+    width: 100%;
+
+    height: 100px;
+
+    box-sizing: border-box;
+}
+
+.startWrapper {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.dropdown {
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    height: 200px;
+    width: 100%;
+
+    overflow: scroll;
+}
+
+.dropdownItem {
+    background: #F6F6F6;
+}
+
+.image {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.geoTagContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    background-color: rgb(246, 246, 246);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.selectedTagsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.crossIcon {
+    rotate: 45deg;
+
+    cursor: pointer;
+}
+
+.dayDescriptionContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
+
+.dayDescriptionContainer input{
+    max-width: max-content;
+}
+
+.dayDescriptionContainer {
+    width: 100%;
+}
+
+.dayDescriptionNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dayDescriptionNav button{
+    height: 20px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-size: 14px;
+}

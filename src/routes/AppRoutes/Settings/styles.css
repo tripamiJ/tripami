@@ -1,0 +1,21 @@
+.Dropdown-control {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+.Dropdown-control:hover {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.Dropdown-menu {
+    border-radius: 8px;
+    border: none;
+}
+
+.Toastify__progress-bar {
+    background: #2b6cff;
+}

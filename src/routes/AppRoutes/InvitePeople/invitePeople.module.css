@@ -1,0 +1,91 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    background: #DAE0E1;
+    flex-grow: 1;
+    padding: 57px;
+}
+
+.limit {
+    color: #FF4D00;
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-left: 5px;
+    margin-top: 20px;
+    margin-bottom: 68px;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.input {
+    background: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid rgba(172, 172, 172, 0.22);
+    width: 100%;
+    padding: 6px 2px;
+    display: inline-block;
+
+    font-family: Gilroy, sans-serif;
+    font-size: 17px;
+}
+
+.input::placeholder {
+    color: #4F4F4F;
+    font-family: Gilroy, sans-serif;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.sendButton {
+    border-radius: 32px;
+    background: #55BEF5;
+
+    width: 100%;
+
+    color: #FFF;
+    font-family: Gilroy, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+
+@media (min-width: 768px) {
+    .input {
+        width: 30%;
+    }
+    .sendButton {
+        width: 10%;
+    }
+}
+
+.previewTop {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 400px;
+}
+
+.previewContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: #DAE0E1;
+}

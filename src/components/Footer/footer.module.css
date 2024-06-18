@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+
+    background: #596B6D;
+    font-family: 'Beau Rivage', cursive;
+    
+}
+
+.logo {
+    align-self: center;
+}
+
+.centerContainer {
+    color: #FFF;
+    text-align: center;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.rightContainer {
+    align-self: center;
+    color: #FFF;
+    text-align: center;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+        /* padding-right: 40px; */
+    }
+
+    .logo {
+        align-self: flex-end;
+    }
+}

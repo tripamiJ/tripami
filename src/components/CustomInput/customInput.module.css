@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 57px;
+}
+
+.label {
+    margin-bottom: 3px;
+    margin-left: 20px;
+
+    color: #696969;
+    font-family: Karla, sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 300;
+    box-sizing: border-box;
+}
+
+.input {
+    display: flex;
+    outline: none;
+    border-radius: 44px;
+    border: 1px solid #5280F4;
+    background: transparent;
+    padding: 10px 20px;
+
+    align-items: center;
+
+    flex-grow: 1;
+
+    font: small-caption;
+    font-size: 20px;
+
+    box-sizing: border-box;
+}
+
+.pencil {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+}

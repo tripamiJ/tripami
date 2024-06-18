@@ -1,0 +1,205 @@
+.fileLoaderContainer {
+  height: 280px;
+  width: 100%;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.uploadContainer {
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  background-color: #DEDED7;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  gap: 27px;
+}
+
+.buttonUpload {
+  object-fit: contain;
+  padding: 0;
+  background-color: #DEDED7;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.uploadContainer:hover {
+  transition: background-color 0.3s;
+  background-color: #D1D1C6;
+}
+
+.uploadContainer:hover .buttonUpload {
+  transition: background-color 0.3s;
+  background-color: #D1D1C6;
+}
+
+.text {
+  font-family: Gilroy, sans-serif;
+  white-space: nowrap;
+}
+
+.singleImageContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.singleImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.removePhotoButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  background: rgba(254, 254, 254, 0.6);
+  border: 1px solid #D53604;
+  color: #fff;
+  cursor: pointer;
+}
+
+.swiperContainer {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+}
+
+.swiperSlide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* border-radius: 20px; */
+}
+
+.uploadContainerWithImages {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(254, 254, 254, 0.6);
+  border: 1px solid #6B6B6E;
+  box-sizing: border-box;
+  border-radius: 20px;
+  line-height: 27px;
+  padding: 5px 24px;
+  right: 40px;
+  bottom: 16px;
+  max-width: 220px;
+  z-index: 1;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.uploadContainerWithImagesSingle {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(254, 254, 254, 0.6);
+  border: 1px solid #6B6B6E;
+  box-sizing: border-box;
+  border-radius: 20px;
+  line-height: 24px;
+  padding: 5px 24px;
+  right: 40px;
+  top: 100px;
+  max-width: 220px;
+  z-index: 1;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.uploadContainerWithImages:hover {
+  background-color: rgba(254, 254, 254, 0.8);
+}
+
+.buttonUploadPlus {
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+
+
+.multyImageContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+}
+
+.swiperContainerWrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.disabled {
+  pointer-events: none;
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.prev_arrow, .next_arrow {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  z-index: 1;
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(254, 254, 254, 0.5);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  user-select: none;
+}
+
+.prev_arrow {
+  left: 40px;
+}
+
+.next_arrow {
+  right: 40px;
+}
+
+.prev_arrow:hover, .next_arrow:hover {
+  background-color: rgba(254, 254, 254, 0.8);  
+}
+
+.arrow_right, .arrow_left {
+  font-size: 24px;
+  color: white;
+}
+
+.arrow_left {
+  transform: rotate(180deg);
+}

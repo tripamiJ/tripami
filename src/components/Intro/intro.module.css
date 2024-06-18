@@ -1,0 +1,50 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  padding: 30px 50px;
+  background-image: url("../../assets/images/LoginBackground.png");
+  height: 50vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.email {
+  margin: 0 auto;
+  width: 40%;
+  height: 51px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #1400ff -70.01%, #38acff 100%);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+
+  margin-top: 5%;
+}
+
+.first {
+  font-family: Acme, sans-serif;
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 39px;
+  letter-spacing: 0em;
+  text-align: center;
+
+  margin-bottom: 20px;
+
+  color: #fff;
+}
+
+.second {
+  font-family: Gilroy, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: center;
+
+  color: #fff;
+}

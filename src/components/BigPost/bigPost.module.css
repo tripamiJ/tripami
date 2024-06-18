@@ -1,0 +1,58 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+
+    margin-top: 30px;
+    padding: 10px 16px 42px 16px;
+    background-color: #FFFFFF;
+
+    border-radius: 8px;
+}
+
+.postContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.swiperContainer {
+    width: 100%;
+}
+
+.postIMage {
+    width: 100%;
+    height: auto;
+}
+
+.postText {
+    color: #262626;
+    font-family: Gilroy, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    padding-top: 14px;
+}
+
+.postActionsWrapper {
+    align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+    .postContainer {
+        flex-direction: row;
+    }
+
+    .swiperContainer {
+        width: 40%;
+    }
+}

@@ -1,0 +1,71 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+    padding: 0 20px 40px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        padding: 30px 40px;
+    }
+}
+
+@media (min-width: 990px) {
+    .container {
+        padding: 0 62px 40px;
+    }
+}
+
+.emptyState {
+    display: flex;
+    color: #262626;
+    font-family: Gilroy, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    gap: 10px;
+}
+
+.onlyText {
+    color: #FF4D00;
+}
+
+.button {
+    display: inline-flex;
+    padding: 8px 48px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 25px;
+    background: #FF4D00;
+
+    max-width: 306px;
+
+    color: #FFF;
+    font-family: Gilroy, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.usersContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 42px;
+}
+
+@media (min-width: 768px) {
+    .usersContainer {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+@media (max-width: 500px) {
+    .invite_button {
+        align-self: center;
+    }
+}

@@ -1,0 +1,420 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: calc(100vh - 65px);
+}
+
+.container {
+    padding: 20px;
+}
+
+
+.myAccount {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.genaralInfo {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+    .genaralInfo {
+        width: 60vw;
+    }
+}
+
+@media (min-width: 990px) {
+    .genaralInfo {
+        width: 60vw;
+    }
+}
+
+.userInfo {
+    box-sizing: border-box;
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+@media (min-width: 768px) {
+    .userInfo {
+        padding: 30px;
+    }
+}
+
+@media (min-width: 992px) {
+    .userInfo {
+        padding: 60px;
+    }
+}
+
+.defaultUserIcon {
+    width: 138px;
+    height: 138px;
+    border-radius: 50%;
+}
+
+.description {
+    margin: 0 0 0 25px;
+    font-size: 20px;
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+.text {
+    margin: 0;
+    margin-top: 20px;
+
+    color: #262626;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.edit {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5%;
+}
+
+.editMap {
+    color: #545454;
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    cursor: pointer;
+}
+
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    position: absolute;
+    right: 10px;
+    color: #aaa;
+    pointer-events: none;
+}
+
+.divider {
+    margin: 0 0 10px 0;
+    height: 1px;
+    width: 100%;
+    background: rgba(183, 183, 183, 0.31);
+
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+    .divider {
+        margin: 0 0 10px 5px;
+    }
+}
+
+.features {
+    padding: 10px 30px 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+
+    box-sizing: border-box;
+
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .features {
+        padding: 10px 0 40px 40px;
+    }
+    .text {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 990px) {
+    .features {
+        padding: 10px 0 40px 65px;
+    }
+    .text {
+        font-size: 20px;
+    }
+}
+
+.feature {
+    display: flex;
+    gap: 7px;
+    cursor: pointer;
+    align-items: center;
+
+    color: #262626;
+    font-family: Gilroy, sans-serif;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+@media (min-width: 768px) {
+    .feature {
+        font-size: 17px;
+    }
+}
+
+@media (min-width: 990px) {
+    .feature {
+        font-size: 20px;
+    }
+}
+
+.activeFeature {
+    color: #FF4D00;
+}
+
+.friendsCount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-color: #FF4D00;
+
+    border-radius: 50%;
+
+    color: #FFF;
+    font-family: Gilroy, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.mapContainer {
+    margin: 20px;
+    flex-grow: 1;
+}
+
+@media (min-width: 768px) {
+    .mapContainer {
+        margin: 10px 20px 0 0;
+    }
+}
+
+@media (min-width: 990px) {
+    .mapContainer {
+        margin: 20px 20px 0 0;
+    }
+}
+
+.editMapBox {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+}
+
+.editIcon {
+    margin-left: 15px;
+}
+
+span {
+}
+
+.map {
+    width: 100%;
+    height: auto;
+}
+
+.fileInputWrapper {
+    margin: 0 0 20px 60px;
+    padding: 0 20px 0 20px;
+    width: 85%;
+    height: 54px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
+.addImg {
+    /* display: flex; */
+    margin: auto 15px 5px 0;
+}
+
+.customFileInputLabel {
+    display: flex;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.fileInput {
+    display: none;
+}
+
+.customFileInputLabel i {
+    margin-right: 5px;
+}
+
+.travelsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+@media (min-width: 500px) {
+    .travelsContainer {
+        align-items: center;
+        width: 90%;
+    }
+}
+
+.travelContainer {
+    padding: 0 0 70px 60px;
+    gap: 70px;
+    width: 90vw;
+}
+
+.sliderContainer {
+    margin-bottom: 30px;
+    margin-left: -60px;
+}
+
+.bottomSliderContainer {
+    margin-bottom: 30px;
+}
+
+.title {
+    display: block;
+    font-size: 17px;
+    font-weight: 600;
+
+    margin-bottom: 30px;
+}
+
+.paragraph {
+    margin: 30px 0;
+    font-weight: 500;
+}
+
+.button {
+    width: 27%;
+    border-radius: 25px;
+    background: #ff4d00;
+    color: #fff;
+    border: none;
+    font-size: 1.5vw;
+    font-weight: 500;
+    height: 49px;
+    cursor: pointer;
+}
+
+.trip-button {
+    border-radius: 25px;
+    background: #ff4d00;
+    color: #fff;
+    border: none;
+    font-size: 12px;
+    font-weight: 500;
+    height: 31px;
+    cursor: pointer;
+}
+
+.postsTitle {
+    display: block;
+    font-size: 17px;
+    font-weight: 600;
+
+    margin-bottom: 30px;
+    margin-left: 60px;
+}
+
+@media (max-width: 768px) {
+    .myAccount {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.imageContainer {
+    position: relative;
+}
+
+.editImage {
+    cursor: pointer;
+}
+
+.loader {
+    width: 138px;
+    height: 138px;
+    border-radius: 50%;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.features {
+    padding: 10px 30px 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+  
+    box-sizing: border-box;
+  
+    width: 100%;
+}
+
+.feature {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    padding: 5px 10px;
+  
+    color: #262626;
+    font-family: Gilroy, sans-serif;
+  
+    transition: border-color .3s;
+    border: 1px solid transparent;
+    border-radius: 25px;
+    cursor: pointer;
+  }
+  
+  .feature:hover {
+    border-color: #646cff;
+  }
+
+  @media (min-width: 768px) {
+    .feature {
+      font-size: 17px;
+    }
+  }
+  
+  @media (min-width: 990px) {
+    .feature {
+      font-size: 20px;
+    }
+  }
+  
+  .activeFeature {
+    color: #FF4D00;
+  }

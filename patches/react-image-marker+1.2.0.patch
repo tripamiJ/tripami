@@ -1,0 +1,22 @@
+diff --git a/node_modules/react-image-marker/build/index.d.ts b/node_modules/react-image-marker/build/index.d.ts
+index 6fb3d08..853bf62 100644
+--- a/node_modules/react-image-marker/build/index.d.ts
++++ b/node_modules/react-image-marker/build/index.d.ts
+@@ -1,5 +1,8 @@
+ import * as React from 'react';
+ import './image-marker.scss';
++
++interface ICustomMarker {top: Number, left: Number, itemNumber?: Number, color: string}
++
+ export declare type Marker = {
+     top: Number;
+     left: Number;
+@@ -13,7 +16,7 @@ declare type Props = {
+     src: string;
+     markers: Array<Marker>;
+     onAddMarker?: (marker: Marker) => void;
+-    markerComponent?: React.FC<MarkerComponentProps>;
++    markerComponent?: React.FC<ICustomMarker>;
+     bufferLeft?: number;
+     bufferTop?: number;
+     alt?: string;

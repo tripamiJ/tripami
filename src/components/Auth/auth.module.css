@@ -1,0 +1,148 @@
+.box {
+}
+
+.container {
+  margin: auto;
+  padding: 0 25px;
+  display: flex;
+  flex-direction: column;
+  z-index: 20;
+  width: 50%;
+  height: 485px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 2px 2px 31px 0px rgba(85, 190, 245, 0.31);
+
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin-top: 35px;
+  display: flex;
+  justify-content: center;
+}
+
+.facebook {
+  display: flex;
+  margin-top: 40px;
+  width: 100%;
+  height: 51px;
+  border-radius: 10px;
+  border: 1px solid #3b5998;
+  cursor: pointer;
+}
+
+.apple {
+  display: flex;
+  margin-top: 40px;
+  width: 100%;
+  height: 51px;
+  border-radius: 10px;
+  border: 1px solid #3392ff;
+  cursor: pointer;
+}
+
+.icon {
+  margin: auto 18px;
+}
+
+.name {
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  margin: auto 0;
+}
+
+.devideContainer {
+  margin: 35px 0 25px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background: rgba(183, 183, 183, 0.31);
+}
+
+.or {
+  margin: auto 15px;
+  color: #939393;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.email {
+  margin: 0 auto;
+  width: 60%;
+  height: 51px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #1400ff -70.01%, #38acff 100%);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.text {
+  margin: 42px 0 33px;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  color: #939393;
+}
+
+.accquestion {
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.loginBtn {
+  color: #2b6cff;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.footer {
+  margin: auto 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.globe {
+  margin: -30px auto 25px;
+  display: flex;
+  justify-content: center;
+  z-index: 0;
+}
+
+.globearound {
+  display: none;
+}
+
+@media (max-width: 500px) {
+  .globe {
+    display: none;
+    background-color: #dce8f5;
+  }
+
+  .globearound {
+    display: flex;
+    margin: auto;
+  }
+
+  .container {
+    margin-bottom: 20px;
+    background-color: #dce8f5;
+  }
+
+  .footer {
+    flex-direction: column;
+    align-items: center;
+  }
+}

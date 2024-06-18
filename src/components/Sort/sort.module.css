@@ -1,0 +1,21 @@
+.sortContainer {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sort_title {
+    margin: 0;
+}
+
+.sortby_select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    background-repeat: no-repeat;
+}

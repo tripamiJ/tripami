@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Beau+Rivage&display=swap');
+
+@font-face {
+  font-family: 'Gilroy-Regular';
+  src: url('./assets/fonts/Gilroy-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gilroy-Bold';
+  src: url('./assets/fonts/Gilroy-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gilroy-semibold';
+  src: url('./assets/fonts/') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+:root {
+  font-family: 'Gilroy-Regular';
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  box-sizing: border-box;
+}
+
+h1 {
+  font-family: 'Gilroy-Bold';
+}
+
+img {
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  font-weight: 500;
+  color: #D53604;
+  text-decoration: inherit;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  max-height: 46px;
+}
+button:hover {
+  border-color: #D53604;
+}
+
+:root {
+  color: #1F1F20;
+  background-color: #ffffff;
+}
+a:hover {
+  color: #D53604;
+}
+button {
+  background-color: #f9f9f9;
+}
