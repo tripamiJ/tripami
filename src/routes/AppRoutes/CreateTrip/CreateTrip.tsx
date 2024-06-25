@@ -11,7 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 import cn from 'classnames';
 import { eachDayOfInterval, format, isValid, parseISO } from 'date-fns';
-import { da } from 'date-fns/locale';
+import { da, id } from 'date-fns/locale';
 import {
   collection,
   deleteDoc,
@@ -27,10 +27,13 @@ import { getDownloadURL } from 'firebase/storage';
 import moment from 'moment';
 import { DateRangePicker } from 'rsuite';
 import { v4 as uuidv4 } from 'uuid';
+import { create } from 'zustand';
 import Plus from '~/assets/icons/plus.svg';
 import CustomDropdownEditor from '~/components/CustomDropdownEditor';
 import CustomPlacesDropdown from '~/components/CustomPlacesDropdown';
 import DailyUploadImagesEditor from '~/components/DailyUploadImagesEditor';
+import Footer from '~/components/Footer';
+import HeaderNew from '~/components/HeaderNew';
 // import DateButtons from '~/components/DateButtons';
 import { LoadingScreen } from '~/components/LoadingScreen';
 import PlaceAutocomplete from '~/components/PlaceAutocomplete/PlaceAutocomplete';
@@ -51,18 +54,15 @@ import { getDateToDisplay } from '~/utils/getDateToDisplay';
 import getNeutralColor from '~/utils/getNeutralColor';
 
 import defaultUserIcon from '@assets/icons/defaultUserIcon.svg';
+import geotagFilled from '@assets/icons/geo_filled.svg';
 import { addDoc } from '@firebase/firestore';
 import { ref, uploadBytes } from '@firebase/storage';
 
 import budget_icon from '../../../assets/icons/budget-icon.svg';
-import facebook_logo from '../../../assets/icons/facebook_logo.svg';
 import geo_filled from '../../../assets/icons/geo_filled.svg';
 import hashtag_icon from '../../../assets/icons/hashtag-icon.svg';
 import hashtag_icon_filled from '../../../assets/icons/hashtag_icon_filled.svg';
-import Logo from '../../../assets/icons/headerLogo.svg';
-import instagram_logo from '../../../assets/icons/instagram_logo.svg';
 import plane_title from '../../../assets/icons/plane-title.svg';
-import x_logo from '../../../assets/icons/x_logo.svg';
 import styles from './CreateTrip.module.css';
 
 import 'rsuite/dist/rsuite.min.css';
@@ -85,7 +85,7 @@ interface Props {
   };
 }
 
-const apiKey = import.meta.env.VITE_PUBLIC_KEY;
+// const apiKey = import.meta.env.VITE_PUBLIC_KEY;
 
 const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
   const { firestoreUser, updateFirestoreUser } = useContext(AuthContext);
@@ -130,7 +130,7 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
   // );
   const [avatar, setAvatar] = useState<string>(defaultUserIcon);
   // const [isAddCityOpen, setIsAddCityOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState('finished');
+  const [activeTab, setActiveTab] = useState('Finished');
   const [downloadedImages, setDownloadedImages] = useState<
     { url: string; type: string; description: string }[]
   >(data?.imageUrl || []);
@@ -284,6 +284,8 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
             tripName: tripName,
             dayDescription: updatedDaysInfo,
             text: text.replace(/(?:\r\n|\r|\n)/g, '<br />'),
+            createdAt: formatedDate(new Date()),
+            stage: activeTab,
           });
           // const subcollectionCities = collection(db, `trips/${docRef.id}/cities`);
           const subcollectionPlaces = collection(db, `trips/${docRef.id}/places`);
@@ -359,6 +361,9 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
             pinColor: getNeutralColor(),
             dayDescription: updatedDaysInfo,
             text,
+            createdAt: formatedDate(new Date()),
+            stage: activeTab,
+            usersSaved: [],
           }).then(async (docRef) => {
             const subcollectionCities = collection(db, `trips/${docRef.id}/cities`);
             const subcollectionPlaces = collection(db, `trips/${docRef.id}/places`);
@@ -441,6 +446,7 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
     } catch (err) {
       console.log('[ERROR saving the trip] => ', err);
     } finally {
+      navigate('/profile');
       setIsLoading(false);
     }
   };
@@ -659,6 +665,8 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
   };
 
   const handleBudgetChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let value = event.target.value;
+    event.target.value = value.replace(/[^0-9]/g, '');
     setBudget(event.target.value);
   };
 
@@ -683,14 +691,14 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
     setHashtagsResult((prevState) => prevState.filter((item) => item !== tag));
   };
 
-  const formatedDate = (date: Date) => {
+  function formatedDate(date: Date) {
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
     const formattedDate = `${year}-${month}-${day}`;
 
     return formattedDate;
-  };
+  }
 
   const handleChangePhotoDaily = (fileList: FileList) => {
     setDailyInfo((prevState) => {
@@ -737,22 +745,7 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
   return (
     <>
       <div className={styles.editorContainer}>
-        <header className={styles.header}>
-          <div className={styles.headerContainer}>
-            <img
-              className={styles.logoHeader}
-              src={Logo}
-              onClick={() =>
-                navigate('/profile', {
-                  state: {
-                    activeTab: 0,
-                  },
-                })
-              }
-            />
-            <img className={styles.defaultUserIcon} src={avatar} alt='default user icon' />
-          </div>
-        </header>
+        <HeaderNew avatar={avatar} />
         <div className={styles.outer_container}>
           <h1 className={styles.editorTitle}>Trip editor</h1>
           <form>
@@ -811,14 +804,14 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
                 </div>
                 <div className={styles.tabContainer}>
                   <div
-                    className={cn(styles.tab, { [styles.active]: activeTab === 'finished' })}
-                    onClick={() => setActiveTab('finished')}
+                    className={cn(styles.tab, { [styles.active]: activeTab === 'Finished' })}
+                    onClick={() => setActiveTab('Finished')}
                   >
                     Finished journey
                   </div>
                   <div
-                    className={cn(styles.tab, { [styles.active]: activeTab === 'ongoing' })}
-                    onClick={() => setActiveTab('ongoing')}
+                    className={cn(styles.tab, { [styles.active]: activeTab === 'Current' })}
+                    onClick={() => setActiveTab('Current')}
                   >
                     Ongoing
                   </div>
@@ -1117,7 +1110,8 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
                   <>
                     {selectedGeoTags.map((geoTag) => (
                       <div className={styles.geoTagContainer} key={geoTag.placeID}>
-                        <p>{geoTag.address.split(',')[0]}</p>
+                        <img src={geotagFilled} alt='geotagFilled' />
+                        <p className={styles.geotagTitle}>{geoTag.address.split(',')[0]}</p>
                         <img
                           src={Plus}
                           className={styles.crossIcon}
@@ -1183,7 +1177,7 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
                     ?.place.map((place) => (
                       <div className={styles.geoTagContainer} key={place.placeID}>
                         <img src={geo_filled} alt='geo_filled' className={styles.geotag_filled} />
-                        <p>{place.address.split(',')[0]}</p>
+                        <p className={styles.geotagTitle}>{place.address}</p>
                         <img
                           src={Plus}
                           className={styles.crossIcon}
@@ -1284,31 +1278,7 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
           {isLoading && <LoadingScreen />}
         </div>
 
-        <footer className={styles.footerContainer}>
-          <div className={styles.footerLogo}>
-            <img
-              className={styles.mainLogoFooter}
-              src={Logo}
-              onClick={() =>
-                navigate('/profile', {
-                  state: {
-                    activeTab: 0,
-                  },
-                })
-              }
-            />
-            <p className={styles.footerTitle}>Privacy policy</p>
-            <p className={styles.footerTitle}>Contacts</p>
-            <div className={styles.socialLogo}>
-              <img src={facebook_logo} alt='facebook_logo' />
-              <img src={x_logo} alt='x_logo' />
-              <img src={instagram_logo} alt='instagram_logo' />
-            </div>
-          </div>
-          <div className={styles.rights}>
-            <p>© 2024 TripAmi</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

@@ -1,3 +1,7 @@
+:root {
+    font-family: 'Gilroy-Regular', sans-serif;
+}
+
 .userContainer {
     display: flex;
     align-items: center;
@@ -15,7 +19,7 @@
 .location {
     color: #000;
     font-family: Gilroy, sans-serif;
-    font-size: 15px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;

@@ -198,79 +198,84 @@ export const Comment: FC<Props> = ({ comment, isReply, isCommentOpen = false, co
   return (
     <>
       <div className={`${styles.container} ${isReply ? styles.container_reply : ''}`}>
-        <UserPostInfo
-          userData={{
-            username: comment.userName,
-            id: comment.userId,
-            firebaseUid: firestoreUser?.firebaseUid,
-            avatarUrl: userPhotoUrl,
-          }}
-          createdAt={comment.createdAt}
-        />
-        <p>{comment.text}</p>
-        {comment?.placeId ? (
-          <div className={styles.footer}>
-            <div className={styles.shareContainer} onClick={handleLikeComment}>
-              <div>
-                <LikeIcon color={likedByUser ? '#55BEF5' : undefined} />
+        <div className={styles.userAndActions}>
+          <UserPostInfo
+            userData={{
+              username: comment.userName,
+              id: comment.userId,
+              firebaseUid: firestoreUser?.firebaseUid,
+              avatarUrl: userPhotoUrl,
+            }}
+            createdAt={comment.createdAt}
+          />
+
+          {comment?.placeId ? (
+            <div className={styles.footer}>
+              <div className={styles.shareContainer} onClick={handleLikeComment}>
+                <div>
+                  <LikeIcon color={likedByUser ? '#55BEF5' : undefined} />
+                </div>
+                <span className={`${styles.share} ${likedByUser && styles.liked}`}>
+                  {likes.length} Likes
+                </span>
               </div>
-              <span className={`${styles.share} ${likedByUser && styles.liked}`}>
-                {likes.length} Likes
-              </span>
-            </div>
-            <div className={styles.shareContainer} onClick={handleDislikeComment}>
-              <div className={styles.dislike}>
-                <LikeIcon color={dislikedByUser ? '#F00' : undefined} />
+              <div className={styles.shareContainer} onClick={handleDislikeComment}>
+                <div className={styles.dislike}>
+                  <LikeIcon color={dislikedByUser ? '#F00' : undefined} />
+                </div>
+                <span className={`${styles.share} ${dislikedByUser && styles.disliked}`}>
+                  {dislikes?.length || 0} Dislikes
+                </span>
               </div>
-              <span className={`${styles.share} ${dislikedByUser && styles.disliked}`}>
-                {dislikes?.length || 0} Dislikes
-              </span>
             </div>
-          </div>
-        ) : (
+          ) : (
+            <>
+              {!isReply && (
+                <CommentActions
+                  comment={comment}
+                  setRepliesOpen={() => setIsRepliesOpen((prevState) => !prevState)}
+                  isReply={isReply}
+                  repliesCount={replies.length}
+                />
+              )}
+            </>
+          )}
+        </div>
+        <p className={styles.commentText}>{comment.text}</p>
+        {!isReply && (
           <>
-            {!isReply && (
-              <CommentActions
-                comment={comment}
-                setRepliesOpen={() => setIsRepliesOpen((prevState) => !prevState)}
-                isReply={isReply}
-                repliesCount={replies.length}
-              />
+            {isRepliesOpen && (
+              <>
+                <div className={styles.replies_container}>
+                  <div className={styles.replies_top}>
+                    {firestoreUser?.firebaseUid !== comment.userId && (
+                      <>
+                        <input
+                          type='text'
+                          placeholder='Reply'
+                          value={enteredReply}
+                          onChange={(e) => setEnteredReply(e.target.value)}
+                          className={styles.input}
+                        />
+
+                        <button className={styles.button} onClick={handleReply}>
+                          Reply
+                        </button>
+                      </>
+                    )}
+                  </div>
+                  {replies.length > 0 &&
+                    replies?.map((reply) => {
+                      return <Comment key={reply.id} comment={reply} isReply={true} />;
+                    })}
+                </div>
+              </>
             )}
           </>
         )}
       </div>
-      {!isReply && (
-        <>
-          {isRepliesOpen && (
-            <>
-              <div className={styles.replies_container}>
-                <div className={styles.replies_top}>
-                  {firestoreUser?.firebaseUid !== comment.userId && (
-                    <>
-                      <input
-                        type='text'
-                        placeholder='Reply'
-                        value={enteredReply}
-                        onChange={(e) => setEnteredReply(e.target.value)}
-                        className={styles.input}
-                      />
 
-                      <button className={styles.button} onClick={handleReply}>
-                        Reply
-                      </button>
-                    </>
-                  )}
-                </div>
-                {replies.length > 0 &&
-                  replies?.map((reply) => {
-                    return <Comment key={reply.id} comment={reply} isReply={true} />;
-                  })}
-              </div>
-            </>
-          )}
-        </>
-      )}
+
     </>
   );
 };

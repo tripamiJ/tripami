@@ -17,18 +17,11 @@
 }
 
 .travelsContainer {
+    flex-wrap: wrap;
+    justify-content: space-between;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     gap: 20px;
     margin-bottom: 35px;
-}
-
-@media (max-width: 500px) {
-    .travelsContainer {
-        width: 100%;
-        align-items: center;
-    }
 }
 
 .bottomSliderContainer {
@@ -40,8 +33,5 @@
     .container {
         padding: 0 62px;
         max-width: calc(100vw - 124px);
-    }
-    .travelsContainer {
-        gap: 60px;
     }
 }

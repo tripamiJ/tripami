@@ -1,43 +1,67 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    gap: 40px;
-
-    background: #596B6D;
-    font-family: 'Beau Rivage', cursive;
-    
+.footerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 80px 80px 0 80px;
+  background-color: #F8F7F1;
+  border-top: 1px solid rgba(162, 126, 101, 0.3);
 }
 
-.logo {
-    align-self: center;
+
+.mainLogoFooter {
+  width: 150px;
+  height: 70px;
+  margin-inline: 60px;
 }
 
-.centerContainer {
-    color: #FFF;
-    text-align: center;
-    font-size: 40px;
-    font-style: normal;
-    font-weight: 400;
+.footerLogo {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-bottom: 56px;
+  border-bottom: 0.5px solid rgba(162, 126, 101, 0.3);
+  box-sizing: border-box;
 }
 
-.rightContainer {
-    align-self: center;
-    color: #FFF;
-    text-align: center;
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 400;
+@media (max-width: 768px) {
+  .footerLogo {
+      flex-direction: column;
+      gap: 20px;
+  }
 }
 
-@media (min-width: 768px) {
-    .container {
-        flex-direction: row;
-        /* padding-right: 40px; */
-    }
+.footerTitle {
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+  align-self: center;
+}
 
-    .logo {
-        align-self: flex-end;
-    }
+.socialLogo {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+.secondarySocial {
+  display: flex;
+  justify-content: space-around;
+}
+
+.socialLogo img {
+  width: 40px;
+  height: 40px;
+}
+
+.rights {
+display: flex;
+justify-content: flex-start;
+width: 100%;
+padding-bottom: 80px;
+}
+
+.rights p {
+  color: #46464D;
+  font-size: 18px;
+  line-height: 27px;
 }

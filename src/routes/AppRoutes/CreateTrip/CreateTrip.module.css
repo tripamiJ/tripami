@@ -396,9 +396,17 @@
   object-fit: contain;
 }
 
+.geotagTitle {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
 .geoTagContainer {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   background-color: #FEFEFE;
   border: 1px solid #DEDED7;
   border-radius: 24px;
@@ -421,6 +429,8 @@
   gap: 10px;
   width: 80%;
   z-index: 0;
+
+  margin-bottom: 32px;
 }
 
 .crossIcon {
@@ -860,70 +870,4 @@
 .placesDrop {
   display: flex;
   gap: 24px;
-}
-
-.footerContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 80px 80px 0 80px;
-  background-color: #F8F7F1;
-}
-
-.mainLogoFooter {
-  width: 150px;
-  height: 70px;
-  margin-inline: 60px;
-}
-
-.footerLogo {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  padding-bottom: 56px;
-  border-bottom: 0.5px solid rgba(162, 126, 101, 0.3);
-  box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-  .footerLogo {
-      flex-direction: column;
-      gap: 20px;
-  }
-}
-
-.footerTitle {
-  font-size: 16px;
-  line-height: 24px;
-  color: #000000;
-  align-self: center;
-}
-
-.socialLogo {
-  display: flex;
-  gap: 36px;
-  align-items: center;
-}
-
-.secondarySocial {
-  display: flex;
-  justify-content: space-around;
-}
-
-.socialLogo img {
-  width: 40px;
-  height: 40px;
-}
-
-.rights {
-display: flex;
-justify-content: flex-start;
-width: 100%;
-padding-bottom: 80px;
-}
-
-.rights p {
-  color: #46464D;
-  font-size: 18px;
-  line-height: 27px;
 }

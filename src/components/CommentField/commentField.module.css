@@ -1,19 +1,24 @@
 .container {
     display: flex;
     flex-direction: column;
+    align-self: center;
     border-radius: 8px;
-    /* border: 1px solid rgba(174, 174, 174, 0.64); */
-    background: #FFF;
 
-    height: 189px;
-
+    max-width: 1440px;
+    width: 100%;
+    min-height: 230px;
+    height: 100%;
     padding: 20px 15px;
+    gap: 16px;
 }
 
 .input {
-    border: none;
+    border: 1px solid #DEDED7;
+    border-radius: 24px;
     outline: none;
     width: 100%;
+    padding: 24px;
+    box-sizing: border-box;
     flex-grow: 1;
 
     font-family: Gilroy, sans-serif;
@@ -25,15 +30,32 @@
 }
 
 .buttonsContainer {
-    display: flex;
-    justify-content: flex-end;
-    gap: 27px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 27px;
 }
 
 .commentButton {
-    border-radius: 23px;
-    background: #FF4D00;
-    color: #FFF;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  align-self: center;
+  border-radius: 23px;
+  box-sizing: border-box;
+
+  
+  background: rgba(255, 77, 0, 1);
+  color: #FFF;
+
+  max-width: 190px;
+  width: 100%;
+  line-height: 48px;
+  font-size: 18px;
+  padding: 10px, 55px;
+}
+
+.commentButton:hover {
+  background: rgba(255, 77, 0, 0.7);
 }
 
 .cancelButton {

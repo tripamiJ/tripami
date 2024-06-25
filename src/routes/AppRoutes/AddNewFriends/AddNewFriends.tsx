@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { deleteDoc, documentId } from 'firebase/firestore';
 import { getDownloadURL } from 'firebase/storage';
-import { Footer } from '~/components/Footer';
+import Footer from '~/components/Footer';
 import { PageTitle } from '~/components/PageTitle';
 import Header from '~/components/profile/Header';
 import { firebaseErrors } from '~/constants/firebaseErrors';

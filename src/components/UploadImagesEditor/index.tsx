@@ -19,7 +19,7 @@ interface Props {
 const UploadImagesEditor: React.FC<Props> = ({ file, handleChange, handleRemove }) => {
   const fileTypes = ['JPEG', 'PNG', 'JPG', 'MP4'];
 
-  const sliderRef = useRef<SwiperRef | null>(null);
+  const sliderRef = useRef<SwiperRef>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {

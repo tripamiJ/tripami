@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 
 import axios from 'axios';
-import { Footer } from '~/components/Footer';
+import Footer from '~/components/Footer';
 import { InviteLetter } from '~/components/InviteLetter/InviteLetter';
 import { PageTitle } from '~/components/PageTitle';
 import Header from '~/components/profile/Header';

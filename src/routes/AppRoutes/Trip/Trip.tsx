@@ -1,31 +1,62 @@
-import { useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 // import ReactQuill from 'react-quill';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { documentId, getDocs, onSnapshot, orderBy, query, where } from 'firebase/firestore';
+import cn from 'classnames';
+import { format, isValid } from 'date-fns';
+import {
+  doc,
+  documentId,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { Pagination } from 'swiper/modules';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { FormattedDate } from 'rsuite/esm/CustomProvider';
+import { SwiperRef } from 'swiper/react';
+import { v4 as uuidv4 } from 'uuid';
 import { UserPostInfo } from '~/components/BigPost/UserPostInfo';
 import { Comment } from '~/components/Comment';
 import { CommentField } from '~/components/CommentField';
+import Footer from '~/components/Footer';
+import HeaderNew from '~/components/HeaderNew';
 import { LightBox } from '~/components/Lightbox/LightBox';
-import { PageTitle } from '~/components/PageTitle';
 import Rating from '~/components/Rating';
-import Header from '~/components/profile/Header';
-import { storage } from '~/firebase';
+import ShareModal from '~/components/ShareModal/ShareModal';
+import SwiperDialyTrip from '~/components/SwiperDialyTrip';
+import SwiperTrip from '~/components/SwiperTrip';
+import { db, storage } from '~/firebase';
+import { AuthContext } from '~/providers/authContext';
 import { IComment } from '~/types/comments';
 import { commentsCollection, tripsCollection, usersCollection } from '~/types/firestoreCollections';
 import { ITravel } from '~/types/travel';
 import { IUser } from '~/types/user';
-import { getDateToDisplay } from '~/utils/getDateToDisplay';
+import { timeAgo } from '~/utils/daysAgo';
 
+import budget_icon from '@assets/icons/budget-icon.svg';
+import date_calendar from '@assets/icons/date_calendar.svg';
+import defaultUserIcon from '@assets/icons/defaultUserIcon.svg';
+import geo_filled from '@assets/icons/geo_filled.svg';
+import hashtag_icon_filled from '@assets/icons/hashtag_icon_filled.svg';
+import itinerary from '@assets/icons/itinenary.svg';
+import people from '@assets/icons/people.svg';
+import place_filled from '@assets/icons/place_filled.svg';
+import saveTrip from '@assets/icons/saveTrip.svg';
+import shareTrip from '@assets/icons/shareTrip.svg';
+import tripSaved from '@assets/icons/tripSaved.svg';
+
+import Logo from '../../../assets/icons/headerLogo.svg';
 import styles from './trip.module.css';
 
 export const Trip = () => {
   const { id } = useParams();
   const [trip, setTrip] = useState<ITravel | null>(null);
   const [userData, setUserData] = useState<IUser | null>(null);
+  const { firestoreUser } = useContext(AuthContext);
   const [imageUrls, setImageUrls] = useState<
     {
       url: string;
@@ -33,6 +64,9 @@ export const Trip = () => {
       description: string | undefined;
     }[]
   >([]);
+  const [selectedDayTrip, setSelectedDayTrip] = useState<
+    { date: string; description: string } | undefined
+  >();
   const [isLoading, setIsLoading] = useState(false);
   const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<{
@@ -41,16 +75,101 @@ export const Trip = () => {
     description: string | undefined;
   } | null>(null);
   const [comments, setComments] = useState<IComment[] | null>(null);
+  const [avatar, setAvatar] = useState<string>(defaultUserIcon);
+  const [posted, setPosted] = useState('');
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(trip?.dayDescription[0].date) || new Date()
+  );
+  const [selectedDayImages, setSelectedDayImages] = useState([]);
+  const [isModalShareOpen, setIsModalShareOpen] = useState(false);
+  const [inFavourites, setInFavourites] = useState(false);
+  console.log('inFavourites', inFavourites);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (trip) {
+      setInFavourites(trip.usersSaved?.includes(firestoreUser?.id));
+    }
+  }, [trip]);
+
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      if (firestoreUser && firestoreUser.avatarUrl) {
+        try {
+          const url = await getDownloadURL(ref(storage, firestoreUser.avatarUrl));
+          setAvatar(url);
+        } catch (error) {
+          console.error('Error fetching avatar URL:', error);
+        }
+      }
+    };
+
+    fetchAvatar();
+  }, [firestoreUser, storage]);
+
+  useEffect(() => {
+    if (trip) {
+      const imageRef = ref(storage, trip.imageUrl[0].url);
+      getDownloadURL(imageRef)
+        .then((url) => {
+          const mainContainer = document.querySelector('.mainContainer') as HTMLElement;
+          if (mainContainer) {
+            mainContainer.style.backgroundImage = `url(${url})`;
+            mainContainer.style.backgroundRepeat = 'no-repeat';
+            mainContainer.style.backgroundPosition = 'center';
+            mainContainer.style.backgroundSize = 'cover';
+            mainContainer.style.height = '1500px';
+          }
+        })
+        .catch((error) => {
+          console.error('Error getting image URL:', error);
+        });
+    }
+  }, [trip]);
 
   useEffect(() => {
     (async () => {
       const q = query(tripsCollection, where(documentId(), '==', id));
+
       const querySnapshot = await getDocs(q);
       const fetchedPost = querySnapshot.docs[0].data() as ITravel;
+      setSelectedDate(new Date(fetchedPost.dayDescription[0].date));
       setTrip(fetchedPost);
     })();
   }, [id]);
+
+  useEffect(() => {
+    (async () => {
+      const selectedDay = trip?.dayDescription.find(
+        (day) => formatedDate(new Date(day.date)) === formatedDate(selectedDate)
+      );
+      setSelectedDayTrip(selectedDay);
+    })();
+  }),
+    [selectedDate];
+
+  useEffect(() => {
+    (async () => {
+      const selectedDayPhotos = [];
+      if (trip?.dayDescription) {
+        for (const day of trip.dayDescription) {
+          if (formatedDate(new Date(day.date)) === formatedDate(selectedDate)) {
+            if (Array.isArray(day.photos) && day.photos.length > 0) {
+              for (let i = 0; i < day.photos.length; i++) {
+                const url = await getDownloadURL(ref(storage, day.photos[i].url));
+                selectedDayPhotos.push({
+                  url,
+                  id: uuidv4(),
+                  type: day.photos[i].type,
+                });
+              }
+            }
+          }
+        }
+      }
+      setSelectedDayImages(selectedDayPhotos);
+    })();
+  }, [selectedDate, trip, setSelectedDayImages]);
 
   useEffect(() => {
     (async () => {
@@ -60,7 +179,6 @@ export const Trip = () => {
           const q = query(usersCollection, where(documentId(), '==', trip.userId));
           const querySnapshot = await getDocs(q);
           const fetchedUser = querySnapshot.docs[0].data() as IUser;
-
           setUserData(fetchedUser as IUser);
         } catch (error) {
           console.log('[ERROR getting user from firestore] => ', error);
@@ -115,130 +233,212 @@ export const Trip = () => {
     };
   }, [id]);
 
-  return (
-    <div className={styles.mainContainer}>
-      <Header />
-      <div className={styles.main}>
-        <PageTitle title={'Trip'} />
+  function formatedDate(date: Date) {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const formattedDate = `${day}-${month}-${year}`;
 
+    return formattedDate;
+  }
+
+  const handleDateClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, date: Date) => {
+    event.preventDefault();
+    setSelectedDate(date);
+  };
+
+  const handleFavouriteClick = useCallback(async () => {
+    if (trip) {
+      const docRef = doc(db, 'trips', id);
+      if (trip.usersSaved?.includes(firestoreUser?.id)) {
+        await updateDoc(docRef, {
+          usersSaved: trip.usersSaved.filter((user) => user !== firestoreUser?.id),
+        });
+        setInFavourites(false);
+      } else {
+        await updateDoc(docRef, {
+          usersSaved: [...trip.usersSaved, firestoreUser?.id] || [firestoreUser?.id],
+        });
+        setInFavourites(true);
+      }
+    }
+  }, [firestoreUser?.firebaseUid, trip?.usersSaved]);
+
+  return (
+    <div className={(styles.mainContainer, 'mainContainer')}>
+      <HeaderNew avatar={avatar} />
+      <div className={styles.main}>
         <div className={styles.post}>
           <div className={styles.container}>
-            {userData ? (
-              <UserPostInfo
-                userData={userData}
-                createdAt={trip?.endDate || ''}
-                userPhotoUrl=''
-                isMasterPage={true}
-              />
-            ) : null}
-
+            <div className={styles.headerTrip}>
+              {userData ? (
+                <UserPostInfo
+                  userData={userData}
+                  userPhotoUrl=''
+                  isMasterPage={true}
+                  setPosted={setPosted}
+                />
+              ) : null}
+              <h1 className={styles.title}>{trip?.tripName}</h1>
+              <div className={styles.social}>
+                <div className={styles.followButton}>Follow</div>
+                <img
+                  src={shareTrip}
+                  alt='shareTrip'
+                  className={styles.socialIcon}
+                  onClick={() => setIsModalShareOpen(true)}
+                />
+                <img
+                  src={inFavourites ? tripSaved : saveTrip}
+                  alt='saveTrip'
+                  className={styles.socialIcon}
+                  onClick={handleFavouriteClick}
+                />
+              </div>
+            </div>
+            <div className={styles.timeContainer}>
+              <div>{trip ? `Posted: ${timeAgo(trip.createdAt)}` : ''}</div>
+            </div>
             <div className={styles.tripContainer}>
-              <div className={styles.topContainer}>
-                <div className={styles.swiperContainer}>
-                  <Swiper
-                    // spaceBetween={0}
-                    slidesPerView={1}
-                    // loop={true}
-                    // style={{ width: '100%', height: '100%', cursor: 'pointer' }}
-                    // wrapperClass={styles.swiperWrapper}
-                    pagination={true}
-                    modules={[Pagination]}
-                  >
-                    {imageUrls?.map((image, idx) => (
-                      <SwiperSlide
-                        key={image.url}
-                        style={{ display: 'flex', justifyContent: 'center' }}
-                        onClick={() => handleSelectImage(idx)}
-                      >
-                        {image.type.includes('video') ? (
-                          <video src={image.url} className={styles.postIMage} />
-                        ) : (
-                          <img
-                            src={image.url}
-                            className={styles.postIMage}
-                            onClick={() => setSelectedImage(imageUrls[idx])}
-                          />
-                        )}
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+              <SwiperTrip file={imageUrls} handleSelectImage={handleSelectImage} />
+              <h2 className={styles.tripOverview}>Trip Overview</h2>
+              <div className={styles.topRightContainer}>
+                <p className={styles.journey}>Finished journey</p>
+                <div className={styles.dateContainer}>
+                  <img src={date_calendar} alt='date_calendar' />
+                  <p className={styles.date}>
+                    {trip?.startDate}-{trip?.endDate}
+                  </p>
                 </div>
-                <div className={styles.topRightContainer}>
-                  <h1 className={styles.title}>{trip?.tripName}</h1>
-                  <div className={styles.rateContainer}>
-                    <Rating selectedStars={trip?.rate || 1} />
-                  </div>
-                  <div className={styles.textContainer}>
-                    {/* <ReactQuill value={trip?.text} readOnly={true} theme={'bubble'} /> */}
-                    <p className={styles.postText}>{trip?.text}</p>
-                    {/* <div className={styles.postActionsWrapper}>
-                    <PostActions postData={post} />
-                  </div> */}
-                  </div>
+                <div className={styles.dateContainer}>
+                  <img src={people} alt='people' />
+                  <p className={styles.date}>{trip?.people}</p>
+                </div>
+                <div className={styles.dateContainer}>
+                  <img src={budget_icon} alt='people' />
+                  <p className={styles.date}>{trip?.budget}</p>
+                </div>
+                <div className={styles.rateContainer}>
+                  <Rating selectedStars={trip?.rate || 1} />
                 </div>
               </div>
-
-              {trip?.dayDescription &&
-                trip.dayDescription.map((day, index) => (
-                  <div key={index}>
-                    <h2 className={styles.date}>{getDateToDisplay(day.date)}</h2>
-                    <p className={styles.dayDescription}>{day.description}</p>
+              <div className={styles.textContainer}>
+                {/* <ReactQuill value={trip?.text} readOnly={true} theme={'bubble'} /> */}
+                <p className={styles.postText}>{trip?.text}</p>
+                {/* <div className={styles.postActionsWrapper}>
+                    <PostActions postData={post} />
+                  </div> */}
+              </div>
+              <div className={styles.hashtags}>
+                {trip?.hashtags.map((item) => (
+                  <div key={item} className={styles.hashtagsContainer}>
+                    <img
+                      src={hashtag_icon_filled}
+                      alt='hashtagIcon'
+                      className={styles.hashtagIconRender}
+                    />
+                    <p key={item} className={styles.hashtag}>
+                      {item}
+                    </p>
                   </div>
                 ))}
+              </div>
             </div>
-
-            <div className={styles.visitedContainer}>
-              {trip?.geoTags && trip?.geoTags.length > 0 && (
-                <div>
-                  <p className={styles.text}>Spots: </p>
-                  <div className={styles.tagsContainer}>
-                    {trip?.geoTags?.map((tag) => (
-                      <p
-                        onClick={() => navigate('/place/' + tag.placeID)}
-                        key={tag.placeID}
-                        className={styles.tag}
-                      >
-                        {tag.address.split(',')[0]}
-                      </p>
+            <h2 className={styles.tripOverview}>Visited places</h2>
+            {trip?.geoTags ? (
+              <div className={styles.selectedTagsContainer}>
+                {trip.geoTags.map((geoTag) => (
+                  <div className={styles.geoTagContainer} key={geoTag.placeID}>
+                    <img
+                      src={place_filled}
+                      alt='geoTagImage'
+                      onClick={() => navigate('/place/' + geoTag.placeID)}
+                    />
+                    <p
+                      className={styles.geotagTitle}
+                      onClick={() => navigate('/place/' + geoTag.placeID)}
+                    >
+                      {geoTag.address.split(',')[0]}
+                    </p>
+                    <img
+                      src={itinerary}
+                      alt='itinerary'
+                      onClick={() => navigate('/place/' + geoTag.placeID)}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            <h2 className={styles.tripOverview}>Daily journal</h2>
+            <div className={styles.dateButtonsContainer}>
+              {trip?.dayDescription.map((journal) => {
+                const { date } = journal;
+                const isDateFilled =
+                  journal.photos.length > 0 || journal.place.length > 0 || journal.description;
+                const parsedDate = new Date(date);
+                return (
+                  <button
+                    key={parsedDate.toDateString()}
+                    onClick={(e) => handleDateClick(e, parsedDate)}
+                    className={cn(styles.buttonCustom, {
+                      [styles.selected]:
+                        formatedDate(selectedDate) === formatedDate(new Date(date)),
+                      [styles.dateFilled]: isDateFilled,
+                    })}
+                  >
+                    {isValid(parsedDate) ? format(parsedDate, 'dd/MM') : 'Invalid Date'}
+                  </button>
+                );
+              })}
+            </div>
+            <div className={styles.dayContainer}>
+              <SwiperDialyTrip file={selectedDayImages} />
+              <div className={styles.dayInfoContainer}>
+                <h2 className={styles.tripOverview}>Day Overview</h2>
+                <div className={styles.dayDescriptionJournal}>{selectedDayTrip?.description}</div>
+                {selectedDayTrip ? (
+                  <div className={styles.selectedTagsContainer}>
+                    {selectedDayTrip.place.map((geoTag) => (
+                      <div className={styles.geoTagContainer} key={geoTag.placeID}>
+                        <img src={geo_filled} alt='geo_filled' />
+                        <div
+                          onClick={() => navigate('/place/' + geoTag.placeID)}
+                          className={styles.geotagTitle}
+                        >
+                          {geoTag.address}
+                        </div>
+                      </div>
                     ))}
                   </div>
-                </div>
-              )}
-
-              {trip?.cities && trip.cities.length > 0 && (
-                <div>
-                  <p className={styles.text}>Locations: </p>
-                  <div className={styles.tagsContainer}>
-                    {trip?.cities?.map((tag) => (
-                      <p
-                        onClick={() => navigate('/place/' + tag.placeID)}
-                        key={tag.placeID}
-                        className={styles.tag}
-                      >
-                        {tag.address}
-                      </p>
-                    ))}
-                  </div>
-                </div>
-              )}
+                ) : null}
+              </div>
             </div>
           </div>
+        </div>
 
-          {id && (
+        {id && comments && (
+          <div className={styles.containerComments}>
+            <h2 className={styles.commentsTitle}>Comments</h2>
+            <div className={styles.commentsMap}>
+              {comments?.map((comment) => (
+                <Comment key={comment.id} comment={comment} contentType='trip' />
+              ))}
+            </div>
             <CommentField
               postId={id}
               commentsCount={trip?.comments_count || 0}
               contentType='trip'
               postOwnerId={trip?.userId || ''}
             />
-          )}
-        </div>
-
-        {comments &&
-          comments?.map((comment) => (
-            <Comment key={comment.id} comment={comment} contentType={'trip'} />
-          ))}
+          </div>
+        )}
       </div>
+
+      <ShareModal
+        isOpen={isModalShareOpen}
+        onRequestClose={() => setIsModalShareOpen(false)}
+        linkTo={'https://tripamimain.netlify.app/#/trip/' + id}
+      />
 
       <LightBox
         isOpen={isLightBoxOpen}
@@ -247,6 +447,7 @@ export const Trip = () => {
         onChangeSelectedPhoto={setSelectedImage}
         images={imageUrls}
       />
+      <Footer />
     </div>
   );
 };

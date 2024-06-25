@@ -1,10 +1,10 @@
-import {create} from 'zustand';
-import {immer} from 'zustand/middleware/immer';
-import {createJSONStorage, persist} from 'zustand/middleware';
-import {IPost} from "~/types/post";
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
+import { IPost } from '~/types/post';
 
 interface State {
-  posts: IPost[],
+  posts: IPost[];
 }
 
 interface Actions {
@@ -14,19 +14,19 @@ interface Actions {
 const useMyPosts = create<State & Actions>()(
   immer(
     persist(
-      set => ({
+      (set) => ({
         posts: [],
         setPosts: (posts: IPost[]) =>
-          set(state => {
+          set((state) => {
             state.posts = posts;
           }),
       }),
       {
         name: 'postStorage',
         storage: createJSONStorage(() => sessionStorage),
-      },
-    ),
-  ),
+      }
+    )
+  )
 );
 
 export default useMyPosts;

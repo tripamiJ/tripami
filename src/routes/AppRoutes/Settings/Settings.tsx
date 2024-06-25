@@ -9,7 +9,7 @@ import axios from 'axios';
 import { getDownloadURL } from 'firebase/storage';
 import { CustomInput } from '~/components/CustomInput';
 import CustomModal from '~/components/CustomModal';
-import { Footer } from '~/components/Footer';
+import Footer from '~/components/Footer';
 import { ImageUploaderModal } from '~/components/ImageUploaderModal';
 import { LoadingScreen } from '~/components/LoadingScreen';
 import { PageTitle } from '~/components/PageTitle';

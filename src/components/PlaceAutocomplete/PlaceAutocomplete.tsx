@@ -1,13 +1,13 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import React, { Dispatch, FC, SetStateAction } from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
 import place_icon from '../../assets/icons/place_icon.svg';
 import styles from './PlaceAutocomplete.module.css';
 
 interface PlaceAutocompleteProps {
-  searchOptions: google.maps.places.AutocompleteOptions;
+  searchOptions: googlt.maps.places.AutocompleteOptions;
   location: string | null;
-  setLocation: Dispatch<SetStateAction<string | null>>;
+  setLocation: React.Dispatch<React.SetStateAction<string>>;
   onSelectPlace: (address: string, placeId: string) => void;
   placeholder?: string;
 }

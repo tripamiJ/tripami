@@ -1,0 +1,37 @@
+.header {
+  display: flex;
+  justify-content: center;
+}
+
+.headerContainer {
+  padding-inline: 40px;
+  margin-block: 40px;
+  margin-top: 32px;
+
+  min-height: 96px;
+  height: 100%;
+  width: 620px;
+
+  border-radius: 96px;
+  border: 1px solid #EEEEEA;
+  background-color: #F8F7F1;
+  box-shadow: 0px 4px 40px 0px #DEDED780;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoHeader {
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.defaultUserIcon {
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+

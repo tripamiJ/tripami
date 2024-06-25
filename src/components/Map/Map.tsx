@@ -150,7 +150,7 @@ const Map: FC<Props> = ({ userId }) => {
     return () => clearTimeout(timerId);
   }, [selectedMarkerAddress]);
   return (
-    <div style={{ position: 'relative' }}>
+    <div className={styles.mapContainer} style={{ position: 'relative' }}>
       {selectedMarkerAddress && (
         <div className={styles.selectedMarkerAddress} onClick={() => handleSelectPlace()}>
           {selectedMarkerAddress.address}
@@ -252,14 +252,14 @@ const Map: FC<Props> = ({ userId }) => {
         </ZoomableGroup>
       </ComposableMap>
 
-      <div className={styles.buttonsContainer}>
+      {/* <div className={styles.buttonsContainer}>
         <div className={styles.button} onClick={handleZoomIn}>
           <img src={Plus} alt={'Plus zoom icon'} />
         </div>
         <div className={styles.button} onClick={handleZoomOut}>
           <img src={Minus} alt={'Minus zoom icon'} />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -76,16 +76,15 @@ export const CommentField: FC<Props> = ({ postId, commentsCount, contentType, po
     <div className={styles.container}>
       <textarea
         className={styles.input}
-        placeholder={'What are your thoughts?'}
+        placeholder={'Write your thoughts here . . .'}
         onChange={(event) => setEnteredText(event.target.value)}
         value={enteredText}
       />
       <div className={styles.buttonsContainer}>
-        <button className={styles.commentButton} onClick={handleComment}>
+        <div className={styles.commentButton} onClick={handleComment}>
           Comment
-        </button>
+        </div>
       </div>
-
       <ToastContainer closeOnClick autoClose={2000} limit={1} pauseOnHover={false} />
     </div>
   );

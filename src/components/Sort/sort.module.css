@@ -1,21 +1,29 @@
 .sortContainer {
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 20px;
+  width: 100%;
+
+  position: relative;
 }
 
 .sort_title {
     margin: 0;
 }
 
+.sortDirection {
+  position: absolute;
+  right: 0;
+}
+
 .sortby_select {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    color: #333;
-    background-color: #fff;
-    background-repeat: no-repeat;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+  background-color: #fff;
+  background-repeat: no-repeat;
 }

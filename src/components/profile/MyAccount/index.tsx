@@ -1,34 +1,40 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { doc, updateDoc } from 'firebase/firestore';
+import cn from 'classnames';
+// import { doc, updateDoc } from 'firebase/firestore';
 import { getDownloadURL } from 'firebase/storage';
 import 'swiper/css/navigation';
-import { Navigation } from 'swiper/modules';
+// import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import CreatePostModal from '~/components/CreatePostModal';
 import CreateTripModal from '~/components/CreateTripModal';
 import CustomModal from '~/components/CustomModal';
 import EditMap from '~/components/EditMap';
 import useMapContext from '~/components/EditMap/store';
-import { Footer } from '~/components/Footer';
+import Footer from '~/components/Footer';
 import GoogleMaps from '~/components/GoogleMaps/GoogleMaps';
+import HeaderNew from '~/components/HeaderNew';
 import Map from '~/components/Map/Map';
 import { MyFriends } from '~/components/MyFriends';
-import PlaceAutocomplete from '~/components/PlaceAutocomplete/PlaceAutocomplete';
+// import PlaceAutocomplete from '~/components/PlaceAutocomplete/PlaceAutocomplete';
 import PostItem from '~/components/Posts';
 import { TravelItinerary } from '~/components/TravelItinerary/TravelItinerary';
 import useMyPosts from '~/components/profile/store';
 import { firebaseErrors } from '~/constants/firebaseErrors';
 import { db, storage } from '~/firebase';
-import { useWindowDimensions } from '~/hooks/useWindowDimensions';
+// import { useWindowDimensions } from '~/hooks/useWindowDimensions';
 import { AuthContext } from '~/providers/authContext';
 import { postsCollection, tripsCollection } from '~/types/firestoreCollections';
 import { IPost } from '~/types/post';
 import { ITravel } from '~/types/travel';
 
+import addFriends from '@assets/icons/addUser.svg';
 import defaultUserIcon from '@assets/icons/defaultUserIcon.svg';
-import editText from '@assets/icons/editText.svg';
+// import editText from '@assets/icons/editText.svg';
+import logout from '@assets/icons/menu/logout.svg';
+import settings from '@assets/icons/menu/settings.svg';
 import { getDocs, limit, onSnapshot, orderBy, query, where } from '@firebase/firestore';
 import { ref } from '@firebase/storage';
 
@@ -36,9 +42,9 @@ import styles from './myaccount.module.css';
 import './styles.css';
 
 import 'swiper/css';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import background_profile from '@assets/images/background_profile.jpg';
 
-const TABS = ['Home', 'My friends', 'Dream Trips', 'My trips'];
+const TABS = ['Friends', 'Trips', 'Saved'];
 
 const MyAccount = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -51,18 +57,22 @@ const MyAccount = () => {
   const [avatar, setAvatar] = useState<string>(defaultUserIcon);
   const [avatarIsLoading, setAvatarIsLoading] = useState(true);
   const { setTips } = useMapContext();
-  const [whereToNext, setWhereToNext] = useState<string>('');
-  const [isEditWhereToNext, setIsEditWhereToNext] = useState(false);
-  const {state} = useLocation();
+  // const [whereToNext, setWhereToNext] = useState<string>('');
+  // const [isEditWhereToNext, setIsEditWhereToNext] = useState(false);
+  const { state } = useLocation();
 
-  const { firestoreUser, loading } = useContext(AuthContext);
-  const { width } = useWindowDimensions();
+  const { firestoreUser, loading, signOutUser } = useContext(AuthContext);
+  // const { width } = useWindowDimensions();
+  const navigate = useNavigate();
+  console.log(activeTab);
 
   useEffect(() => {
     if (state && state.activeTab !== undefined && activeTab !== state.activeTab) {
       setActiveTab(state.activeTab);
     }
   }, [state]);
+
+  console.log(activeTab);
 
   useEffect(() => {
     if (firestoreUser?.id) {
@@ -88,6 +98,16 @@ const MyAccount = () => {
   const closeTripModal = useCallback(() => {
     setTripModalIsOpen(false);
   }, []);
+
+  useEffect(() => {
+    const mainContainer = document.querySelector(`.${styles.container}`) as HTMLElement;
+    if (mainContainer) {
+      mainContainer.style.backgroundImage = `url(${background_profile})`;
+      mainContainer.style.backgroundRepeat = 'no-repeat';
+      mainContainer.style.backgroundPosition = 'center';
+      mainContainer.style.backgroundSize = 'cover';
+    }
+  }), [];
 
   useEffect(() => {
     (async () => {
@@ -195,57 +215,87 @@ const MyAccount = () => {
     }
   }, [firestoreUser?.id]);
 
-  const getSlidesPerPage = useMemo(() => {
-    if (width < 768) {
-      return 1;
-    } else if (width < 1142) {
-      return 2;
-    } else {
-      return 3;
-    }
-  }, [width]);
+  // const getSlidesPerPage = useMemo(() => {
+  //   if (width < 768) {
+  //     return 1;
+  //   } else if (width < 1142) {
+  //     return 2;
+  //   } else {
+  //     return 3;
+  //   }
+  // }, [width]);
 
-  const onSelectWhereToNext = async (place: string) => {
-    if (firestoreUser?.id) {
-      try {
-        await updateDoc(doc(db, 'users', firestoreUser?.id), {
-          whereToNext: place.split(',')[0],
-        });
-      } catch (err) {
-        // @ts-ignore
-        alert(firebaseErrors[err.code]);
-      } finally {
-        setIsEditWhereToNext(false);
-        setWhereToNext('');
-      }
-    }
-  };
+  // const onSelectWhereToNext = async (place: string) => {
+  //   if (firestoreUser?.id) {
+  //     try {
+  //       await updateDoc(doc(db, 'users', firestoreUser?.id), {
+  //         whereToNext: place.split(',')[0],
+  //       });
+  //     } catch (err) {
+  //       // @ts-ignore
+  //       alert(firebaseErrors[err.code]);
+  //     } finally {
+  //       setIsEditWhereToNext(false);
+  //       setWhereToNext('');
+  //     }
+  //   }
+  // };
 
   return (
     <>
-      <div className={styles.content}>
-        <div className={styles.myAccount}>
-          <div className={styles.genaralInfo}>
-            <div className={styles.userInfo}>
-              <div className={styles.imageContainer}>
-                <img className={styles.defaultUserIcon} src={avatar} alt='default user icon' />
-                {avatarIsLoading && <Skeleton className={styles.loader} />}
-              </div>
-              <div className={styles.description}>
-                <div>
+      <div className={styles.container}>
+        <div className={styles.content}>
+          <HeaderNew avatar={avatar} />
+          <div className={styles.myAccount}>
+            <div className={styles.topContainer}>
+              <div className={styles.genaralInfo}>
+                <div className={styles.userInfo}>
+                  <div className={styles.imageContainer}>
+                    <img className={styles.defaultUserIcon} src={avatar} alt='default user icon' />
+                    {avatarIsLoading && <Skeleton className={styles.loader} />}
+                  </div>
                   {!firestoreUser?.username && <Skeleton style={{ width: 100, height: 20 }} />}
                   <p className={styles.text} style={{ margin: 0 }}>
                     {firestoreUser?.username}
                   </p>
-                  <p className={styles.text}>
-                    {firestoreUser?.tripCount !== undefined
-                      ? `My trips: ${firestoreUser?.tripCount || 0}`
-                      : ''}
-                  </p>
-                  {firestoreUser?.tripCount === undefined && (
-                    <Skeleton style={{ width: 100, height: 20 }} />
-                  )}
-                  <div className={styles.whereToNextContainer}>
+                  {firestoreUser?.username ? (
+                    <div className={styles.edit}>
+                      <div className={styles.inputWrapper}>
+                        <div className={styles.linkStyle} onClick={() => navigate('/trip/create')}>
+                          Post a Trip
+                        </div>
+                      </div>
+                    </div>
+                  ) : null}
+                  <div className={styles.optionsContainer}>
+                    <div className={styles.options}>
+                      <div onClick={() => navigate('/add-friends')} className={styles.addFriend}>
+                        <div className={styles.RightSlot}>
+                          <img src={addFriends} className={styles.imageMenu} />
+                        </div>
+                        Find new friends
+                      </div>
+                      <div
+                        onClick={() => navigate('/settings')}
+                        className={cn(styles.addFriend, styles.underline)}
+                      >
+                        <div className={styles.RightSlot}>
+                          <img src={settings} className={styles.imageMenu} />
+                        </div>
+                        Settings
+                      </div>
+                      <div
+                        onClick={signOutUser}
+                        className={cn(styles.addFriend, styles.optionsLogout)}
+                      >
+                        <div className={styles.RightSlot}>
+                          <img src={logout} className={styles.imageMenu} />
+                        </div>
+                        Log out
+                      </div>
+                    </div>
+                  </div>
+                  {/* <div className={styles.whereToNextContainer}>
                     {!isEditWhereToNext && firestoreUser?.tripCount !== undefined && (
                       <p className={styles.text}>Where to next? </p>
                     )}
@@ -273,95 +323,76 @@ const MyAccount = () => {
                       alt='edit icon'
                       onClick={() => setIsEditWhereToNext(!isEditWhereToNext)}
                     />
-                  </div>
+                  </div> */}
                   {firestoreUser?.tripCount === undefined && (
                     <Skeleton style={{ width: 100, height: 20 }} />
                   )}
                 </div>
-                {firestoreUser?.username ? (
-                  <div className={styles.edit}>
-                    <div className={styles.inputWrapper}>
-                      <Link
-                        to='/trip/create'
-                      >
-                        Post a Trip
-                      </Link>
-                    </div>
-                  </div>
-                ) : null}
+              </div>
+
+              <div className={styles.mapContainer}>
+                <Map />
               </div>
             </div>
-            <div className={styles.divider}></div>
-            <div className={styles.features}>
-              {TABS.slice(1).map((tab, index) => (
-                <span
-                  className={`${styles.feature} ${index === activeTab - 1 && styles.activeFeature}`}
-                  onClick={() => setActiveTab(index + 1)}
-                  key={tab}
-                >
-                  {tab}{' '}
-                  {index === 0 && (
-                    <div className={styles.friendsCount}>{firestoreUser?.friends_count || 0}</div>
-                  )}
-                  {index == 2 && (
-                    <div className={styles.friendsCount}>{firestoreUser?.tripCount || 0}</div>
-                  )}
-                </span>
-              ))}
-            </div>
-          </div>
-          {activeTab !== 4 && (
-            <div className={styles.mapContainer}>
-              <Map />
-            </div>
-          )}
-        </div>
-        {activeTab === 0 ? (
-          <div className={styles.main_content}>
-            <div className={styles.travelContainer}>
-              {!posts?.length && !isPostsLoading ? (
-                <div className={styles.emptyPostsContainer}>
-                  <p className={styles.paragraph}>
-                    Hmm... {firestoreUser?.username} hasn't posted anything yet. Start sharing your
-                    experience with other participants!
-                  </p>
-                  <button className={styles.button} onClick={() => setModalIsOpen(true)}>
-                    NEW POST
-                  </button>
-                </div>
-              ) : (
-                <div className={styles.sliderContainer}>
-                  <span className={styles.postsTitle}>My posts</span>
-                  <Swiper
-                    spaceBetween={30}
-                    slidesPerView={1}
-                    breakpoints={{
-                      500: {
-                        slidesPerView: 1,
-                      },
-                      768: {
-                        slidesPerView: 2,
-                      },
-                      1200: {
-                        slidesPerView: 3,
-                      },
-                      1400: {
-                        slidesPerView: 4,
-                      },
-                    }}
-                    className='mySwiper'
-                    // style={{overflow: "hidden"}}
-                  >
-                    {posts?.map((post) => (
-                      <SwiperSlide key={post.id}>
-                        <PostItem postData={post} />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+            <div className={styles.tabContent}>
+              {activeTab !== 4 && (
+                <div className={styles.features}>
+                  {TABS.map((tab, index) => (
+                    <span
+                      className={`${styles.feature} ${index === activeTab - 1 && styles.activeFeature}`}
+                      onClick={() => setActiveTab(index + 1)}
+                      key={tab}
+                    >
+                      {tab}
+                    </span>
+                  ))}
                 </div>
               )}
-            </div>
-            <div className={styles.bottomSliderContainer}>
+              {activeTab === 0 ? (
+                <div className={styles.main_content}>
+                  <div className={styles.travelContainer}>
+                    {!posts?.length && !isPostsLoading ? (
+                      <div className={styles.emptyPostsContainer}>
+                        <p className={styles.paragraph}>
+                          Hmm... {firestoreUser?.username} hasn&apos;t posted anything yet. Start
+                          sharing your experience with other participants!
+                        </p>
+                        <button className={styles.button} onClick={() => setModalIsOpen(true)}>
+                          NEW POST
+                        </button>
+                      </div>
+                    ) : (
+                      <div className={styles.sliderContainer}>
+                        <span className={styles.postsTitle}>My posts</span>
+                        <Swiper
+                          spaceBetween={30}
+                          slidesPerView={1}
+                          breakpoints={{
+                            500: {
+                              slidesPerView: 1,
+                            },
+                            768: {
+                              slidesPerView: 2,
+                            },
+                            1200: {
+                              slidesPerView: 3,
+                            },
+                            1400: {
+                              slidesPerView: 4,
+                            },
+                          }}
+                          className='mySwiper'
+                        >
+                          {posts?.map((post) => (
+                            <SwiperSlide key={post.id}>
+                              <PostItem postData={post} />
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      </div>
+                    )}
+                  </div>
+                  {/* <div className={styles.bottomSliderContainer}>
               {suggestedPosts?.length ? (
                 <span className={styles.postsTitle}>You may also like</span>
               ) : null}
@@ -401,19 +432,22 @@ const MyAccount = () => {
                   </SwiperSlide>
                 ))}
               </Swiper>
+            </div> */}
+                </div>
+              ) : activeTab === 1 ? (
+                <MyFriends />
+              ) : activeTab === 3 ? (
+                <GoogleMaps />
+              ) : activeTab === 2 ? (
+                <TravelItinerary />
+              ) : activeTab === 4 ? (
+                <EditMap />
+              ) : (
+                <MyFriends />
+              )}
             </div>
           </div>
-        ) : activeTab === 1 ? (
-          <MyFriends />
-        ) : activeTab === 2 ? (
-          <GoogleMaps />
-        ) : activeTab === 3 ? (
-          <TravelItinerary />
-        ) : activeTab === 4 ? (
-          <EditMap />
-        ) : (
-          <MyFriends />
-        )}
+        </div>
       </div>
 
       <Footer />

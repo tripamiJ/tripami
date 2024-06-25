@@ -2,7 +2,7 @@ import React, {SVGProps} from "react";
 
 export const LikeIcon: React.FC<SVGProps<SVGElement>> = ({color}) => {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="#AEAEAE" xmlns="http://www.w3.org/2000/svg">
+    <svg width="24" height="24" viewBox="0 0 16 16" fill="#AEAEAE" xmlns="http://www.w3.org/2000/svg">
       <g id="iconamoon:like-thin" fill="#AEAEAE">
         <g id="Group" fill="#AEAEAE">
           <path

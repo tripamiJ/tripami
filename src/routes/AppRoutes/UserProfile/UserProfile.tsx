@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { collectionGroup, documentId, orderBy } from 'firebase/firestore';
 import { getDownloadURL } from 'firebase/storage';
-import { Footer } from '~/components/Footer';
+import Footer from '~/components/Footer';
 import Map from '~/components/Map/Map';
 import { Sort } from '~/components/Sort/Sort';
 import TravelCard from '~/components/TravelCard/TravelCard';

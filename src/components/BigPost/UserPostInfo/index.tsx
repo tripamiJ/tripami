@@ -1,7 +1,8 @@
-import { FC, useCallback, useContext, useEffect, useState } from 'react';
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { getDownloadURL, ref } from 'firebase/storage';
+import { create } from 'zustand';
 import { storage } from '~/firebase';
 import { AuthContext } from '~/providers/authContext';
 import { IPost } from '~/types/post';
@@ -14,11 +15,12 @@ import styles from './userPostInfo.module.css';
 
 interface Props {
   userData: IUser;
-  createdAt: string;
+  createdAt?: string;
   userPhotoUrl?: string;
   postData?: IPost;
   imagesUrl?: string[] | null;
   isMasterPage?: boolean;
+  setPosted?: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const UserPostInfo: FC<Props> = ({
@@ -28,6 +30,7 @@ export const UserPostInfo: FC<Props> = ({
   postData,
   imagesUrl,
   isMasterPage = false,
+  setPosted,
 }) => {
   const navigate = useNavigate();
   const { firestoreUser } = useContext(AuthContext);
@@ -53,13 +56,13 @@ export const UserPostInfo: FC<Props> = ({
   return (
     <div className={styles.userContainer}>
       <div className={styles.leftContainer} onClick={handleOpenUserProfile}>
-        <img src={userAvatar || Avatar} style={{ width: 24, height: 24, borderRadius: 50 }} />
+        <img src={userAvatar || Avatar} style={{ width: 40, height: 40, borderRadius: 50 }} />
         <div>
           <p className={styles.location}>{userData?.username}</p>
-          <p className={styles.postedAgo}>{timeAgo(createdAt)}</p>
+          {createdAt && <p className={styles.time}>{timeAgo(createdAt)}</p>}
         </div>
       </div>
-      {!isMasterPage && (
+      {/* {!isMasterPage && (
         <button className={styles.button}>
           <p
             className={styles.buttonText}
@@ -75,7 +78,7 @@ export const UserPostInfo: FC<Props> = ({
             view
           </p>
         </button>
-      )}
+      )} */}
     </div>
   );
 };

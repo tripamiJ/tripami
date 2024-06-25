@@ -3,6 +3,18 @@
     animation-fill-mode: both;
 }
 
+.mapContainer {
+  position: relative;
+  width: 100%;
+  max-height: 520px;
+  border-radius: 40px;
+  overflow: hidden;
+  border: 1px solid #EEEEEA;
+  background-color: rgba(254, 254, 254, 0.7);
+  box-shadow: rgba(222, 222, 215, 0.5);
+  backdrop-filter: blur(10px);
+}
+
 @keyframes __bounceInDown {
     0% {}
 

@@ -96,16 +96,16 @@ export const TravelItinerary = () => {
     <div className={styles.container}>
       {travels && travels.length > 0 ? (
         <>
-          <p className={styles.title}>{firestoreUser?.username}`s travels</p>
+          {/* <p className={styles.title}>{firestoreUser?.username}`s travels</p> */}
+          <div style={{ alignSelf: 'flex-start', width: '100%' }}>
+            <Sort
+              onSelect={setSortBy}
+              isReverse={isReverse}
+              setReverse={() => setIsReverse((prevState) => !prevState)}
+            />
+          </div>
 
           <div className={styles.travelsContainer}>
-            <div style={{ alignSelf: 'flex-start' }}>
-              <Sort
-                onSelect={setSortBy}
-                isReverse={isReverse}
-                setReverse={() => setIsReverse((prevState) => !prevState)}
-              />
-            </div>
             {travels.map((travel) => (
               <TravelCard key={travel.id} travel={travel} />
             ))}
@@ -113,8 +113,8 @@ export const TravelItinerary = () => {
         </>
       ) : (
         <p className={styles.text}>
-          Hmm... {firestoreUser?.username} hasn't posted anything yet. Start sharing your experience
-          with other participants!
+          Hmm... {firestoreUser?.username} hasn&apos;t posted anything yet. Start sharing your
+          experience with other participants!
         </p>
       )}
     </div>
