@@ -4,6 +4,7 @@
 }
 
 .mainContainer {
+  /* position: absolute; */
   background-color: #F8F7F1;
 }
 
@@ -13,11 +14,11 @@
   color: #262626;
   font-family: 'Gilroy-Bold', sans-serif;
   line-height: 38.4px;
+  align-self: center;
 }
 
 .selectedTagsContainer {
   align-items: center;
-  justify-content: space-between;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -442,4 +443,21 @@
         width: 726px;
         margin: 0 auto;
     }
+}
+
+.suggestedTripContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+
+  background-color: rgba(254, 254, 254, 0.7);
+  border-radius: 96px;
+  padding: 40px;
+  margin-top: 40px;
+}
+
+.tripWrapper {
+  display: flex;
 }

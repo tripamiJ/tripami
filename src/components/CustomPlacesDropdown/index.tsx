@@ -82,15 +82,20 @@ const CustomPlacesDropdown: React.FC<Props> = ({
         Select a place
         <img src={array} alt='array' className={cn({ [styles.dropdownArrowOpen]: isOpen })} />
       </div>
+      {isOpen && placesDrop.length > 0 &&
+        <div className={cn(styles.dropdownContent, { [styles.dropdownContentOpen]: isOpen })}>
 
-      <div className={cn(styles.dropdownContent, { [styles.dropdownContentOpen]: isOpen })}>
-        {isOpen &&
-          placesDrop.map((day) => (
-            <div key={day.address} onClick={() => handleOptionClick(day)} className={styles.option}>
+          {placesDrop.map((day, index) => (
+            <div
+              key={day.address}
+              onClick={() => handleOptionClick(day)}
+              className={`${styles.option} ${index === 0 ? styles.firstOption : ''} ${index === placesDrop.length - 1 ? styles.lastOption : ''}`}
+            >
               {day.address.split(',')[0]}
             </div>
           ))}
-      </div>
+        </div>
+      }
     </div>
   );
 };

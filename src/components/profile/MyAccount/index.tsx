@@ -35,6 +35,7 @@ import defaultUserIcon from '@assets/icons/defaultUserIcon.svg';
 // import editText from '@assets/icons/editText.svg';
 import logout from '@assets/icons/menu/logout.svg';
 import settings from '@assets/icons/menu/settings.svg';
+import background_profile from '@assets/images/background_profile.jpg';
 import { getDocs, limit, onSnapshot, orderBy, query, where } from '@firebase/firestore';
 import { ref } from '@firebase/storage';
 
@@ -42,7 +43,7 @@ import styles from './myaccount.module.css';
 import './styles.css';
 
 import 'swiper/css';
-import background_profile from '@assets/images/background_profile.jpg';
+import { Navigation } from 'swiper/modules';
 
 const TABS = ['Friends', 'Trips', 'Saved'];
 
@@ -107,7 +108,8 @@ const MyAccount = () => {
       mainContainer.style.backgroundPosition = 'center';
       mainContainer.style.backgroundSize = 'cover';
     }
-  }), [];
+  }),
+    [];
 
   useEffect(() => {
     (async () => {
@@ -393,46 +395,46 @@ const MyAccount = () => {
                     )}
                   </div>
                   {/* <div className={styles.bottomSliderContainer}>
-              {suggestedPosts?.length ? (
-                <span className={styles.postsTitle}>You may also like</span>
-              ) : null}
-              <Swiper
-                wrapperClass='alsoLikeSwiper'
-                spaceBetween={30}
-                slidesPerView={1}
-                navigation
-                centeredSlides
-                loop
-                modules={[Navigation]}
-                breakpoints={{
-                  500: {
-                    slidesPerView: 1,
-                  },
-                  768: {
-                    slidesPerView: 2,
-                  },
-                  1142: {
-                    slidesPerView: 3,
-                  },
-                }}
-              >
-                {suggestedPosts?.map((post) => (
-                  <SwiperSlide key={post.id} style={{ overflow: 'hidden' }}>
-                    {({ isActive }) => (
-                      <div
-                        style={
-                          isActive
-                            ? { scale: '1', transition: 'scale 0.5s' }
-                            : { scale: '0.7', transition: 'scale 0.5s' }
-                        }
-                      >
-                        <PostItem postData={post} />
-                      </div>
-                    )}
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div> */}
+                    {suggestedPosts?.length ? (
+                      <span className={styles.postsTitle}>You may also like</span>
+                    ) : null}
+                    <Swiper
+                      wrapperClass='alsoLikeSwiper'
+                      spaceBetween={30}
+                      slidesPerView={1}
+                      navigation
+                      centeredSlides
+                      loop
+                      modules={[Navigation]}
+                      breakpoints={{
+                        500: {
+                          slidesPerView: 1,
+                        },
+                        768: {
+                          slidesPerView: 2,
+                        },
+                        1142: {
+                          slidesPerView: 3,
+                        },
+                      }}
+                    >
+                      {suggestedPosts?.map((post) => (
+                        <SwiperSlide key={post.id} style={{ overflow: 'hidden' }}>
+                          {({ isActive }) => (
+                            <div
+                              style={
+                                isActive
+                                  ? { scale: '1', transition: 'scale 0.5s' }
+                                  : { scale: '0.7', transition: 'scale 0.5s' }
+                              }
+                            >
+                              <PostItem postData={post} />
+                            </div>
+                          )}
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  </div> */}
                 </div>
               ) : activeTab === 1 ? (
                 <MyFriends />

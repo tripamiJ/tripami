@@ -73,11 +73,19 @@ const DailyUploadImagesEditor: React.FC<Props> = ({ dailyInfo, handleChange, han
         </FileUploader>
       ) : dailyInfo.length === 1 ? (
         <div className={styles.singleImageContainer}>
-          <img
-            src={URL.createObjectURL(dailyInfo[0])}
-            alt='Uploaded'
-            className={styles.singleImage}
-          />
+          {dailyInfo[0].type.startsWith('image/') ? (
+            <img
+              src={URL.createObjectURL(dailyInfo[0])}
+              alt='Uploaded'
+              className={styles.singleImage}
+            />
+          ) : dailyInfo[0].type.startsWith('video/') ? (
+            <video
+              src={URL.createObjectURL(dailyInfo[0])}
+              className={styles.singleImage}
+              controls
+            />
+          ) : null}
           <button
             onClick={(e) => handleRemove(e, dailyInfo[0].name)}
             className={styles.removePhotoButton}
@@ -91,7 +99,13 @@ const DailyUploadImagesEditor: React.FC<Props> = ({ dailyInfo, handleChange, han
             types={fileTypes}
             hoverTitle={' '}
           >
-            <div className={styles.uploadContainerWithImagesSingle}>
+            <div
+              className={
+                dailyInfo[0].type.startsWith('image/')
+                  ? styles.uploadContainerWithImagesSingle
+                  : styles.uploadContainerWithVideoSingle
+              }
+            >
               <div className={styles.buttonUploadPlus}>
                 <img src={plus} alt='downloadButton' />
               </div>
@@ -109,15 +123,15 @@ const DailyUploadImagesEditor: React.FC<Props> = ({ dailyInfo, handleChange, han
               className={styles.swiperContainer}
               modules={[Navigation]}
             >
-              {dailyInfo.map((dailyInfo) => (
-                <SwiperSlide key={dailyInfo.name} className={styles.swiperSlide}>
-                  <img
-                    src={URL.createObjectURL(dailyInfo)}
-                    alt='Uploaded'
-                    className={styles.image}
-                  />
+              {dailyInfo.map((item, index) => (
+                <SwiperSlide key={index} className={styles.swiperSlide}>
+                  {item.type.startsWith('image/') ? (
+                    <img src={URL.createObjectURL(item)} alt='Uploaded' className={styles.image} />
+                  ) : item.type.startsWith('video/') ? (
+                    <video src={URL.createObjectURL(item)} className={styles.image} controls />
+                  ) : null}
                   <button
-                    onClick={(e) => handleRemove(e, dailyInfo.name)}
+                    onClick={(e) => handleRemove(e, item.name)}
                     className={styles.removePhotoButton}
                   >
                     <img src={deleteButton} alt='deleteButton' />

@@ -5,10 +5,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import cn from 'classnames';
 import { format, isValid } from 'date-fns';
 import {
+  collection,
   doc,
   documentId,
   getDoc,
   getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
@@ -17,7 +19,7 @@ import {
 } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { FormattedDate } from 'rsuite/esm/CustomProvider';
-import { SwiperRef } from 'swiper/react';
+import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { v4 as uuidv4 } from 'uuid';
 import { UserPostInfo } from '~/components/BigPost/UserPostInfo';
 import { Comment } from '~/components/Comment';
@@ -29,6 +31,7 @@ import Rating from '~/components/Rating';
 import ShareModal from '~/components/ShareModal/ShareModal';
 import SwiperDialyTrip from '~/components/SwiperDialyTrip';
 import SwiperTrip from '~/components/SwiperTrip';
+import TravelCard from '~/components/TravelCard/TravelCard';
 import { db, storage } from '~/firebase';
 import { AuthContext } from '~/providers/authContext';
 import { IComment } from '~/types/comments';
@@ -49,7 +52,6 @@ import saveTrip from '@assets/icons/saveTrip.svg';
 import shareTrip from '@assets/icons/shareTrip.svg';
 import tripSaved from '@assets/icons/tripSaved.svg';
 
-import Logo from '../../../assets/icons/headerLogo.svg';
 import styles from './trip.module.css';
 
 export const Trip = () => {
@@ -83,8 +85,31 @@ export const Trip = () => {
   const [selectedDayImages, setSelectedDayImages] = useState([]);
   const [isModalShareOpen, setIsModalShareOpen] = useState(false);
   const [inFavourites, setInFavourites] = useState(false);
-  console.log('inFavourites', inFavourites);
+  const [suggestedTrips, setSuggestedTrips] = useState<ITravel[]>([]);
+  console.log(suggestedTrips);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (firestoreUser?.id) {
+      const qu = query(
+        tripsCollection,
+        where('userId', '!=', firestoreUser.id),
+        orderBy('createdAt', 'desc'),
+        limit(10)
+      );
+
+      const unsubscribe = onSnapshot(qu, (querySnapshot) => {
+        const fetchedTrips = querySnapshot.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setSuggestedTrips(fetchedTrips);
+      });
+
+      return () => unsubscribe();
+    }
+  }, [firestoreUser?.id]);
 
   useEffect(() => {
     if (trip) {
@@ -281,7 +306,7 @@ export const Trip = () => {
               ) : null}
               <h1 className={styles.title}>{trip?.tripName}</h1>
               <div className={styles.social}>
-                <div className={styles.followButton}>Follow</div>
+                {/* <div className={styles.followButton}>Follow</div> */}
                 <img
                   src={shareTrip}
                   alt='shareTrip'
@@ -303,7 +328,7 @@ export const Trip = () => {
               <SwiperTrip file={imageUrls} handleSelectImage={handleSelectImage} />
               <h2 className={styles.tripOverview}>Trip Overview</h2>
               <div className={styles.topRightContainer}>
-                <p className={styles.journey}>Finished journey</p>
+                <p className={styles.journey}>{trip?.stage} journey</p>
                 <div className={styles.dateContainer}>
                   <img src={date_calendar} alt='date_calendar' />
                   <p className={styles.date}>
@@ -371,28 +396,31 @@ export const Trip = () => {
             ) : null}
             <h2 className={styles.tripOverview}>Daily journal</h2>
             <div className={styles.dateButtonsContainer}>
-              {trip?.dayDescription.map((journal) => {
-                const { date } = journal;
-                const isDateFilled =
-                  journal.photos.length > 0 || journal.place.length > 0 || journal.description;
-                const parsedDate = new Date(date);
-                return (
-                  <button
-                    key={parsedDate.toDateString()}
-                    onClick={(e) => handleDateClick(e, parsedDate)}
-                    className={cn(styles.buttonCustom, {
-                      [styles.selected]:
-                        formatedDate(selectedDate) === formatedDate(new Date(date)),
-                      [styles.dateFilled]: isDateFilled,
-                    })}
-                  >
-                    {isValid(parsedDate) ? format(parsedDate, 'dd/MM') : 'Invalid Date'}
-                  </button>
-                );
-              })}
+              <Swiper spaceBetween={10} slidesPerView={'auto'} freeMode={true}>
+                {trip?.dayDescription.map((journal) => {
+                  const { date } = journal;
+                  const isDateFilled =
+                    journal.photos.length > 0 || journal.place.length > 0 || journal.description;
+                  const parsedDate = new Date(date);
+                  return (
+                    <SwiperSlide key={parsedDate.toDateString()} style={{ width: 'auto' }}>
+                      <button
+                        onClick={(e) => handleDateClick(e, parsedDate)}
+                        className={cn(styles.buttonCustom, {
+                          [styles.selected]:
+                            formatedDate(selectedDate) === formatedDate(new Date(date)),
+                          [styles.dateFilled]: isDateFilled,
+                        })}
+                      >
+                        {isValid(parsedDate) ? format(parsedDate, 'dd/MM') : 'Invalid Date'}
+                      </button>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
             </div>
             <div className={styles.dayContainer}>
-              <SwiperDialyTrip file={selectedDayImages} />
+              {selectedDayImages.length > 0 && <SwiperDialyTrip file={selectedDayImages} />}
               <div className={styles.dayInfoContainer}>
                 <h2 className={styles.tripOverview}>Day Overview</h2>
                 <div className={styles.dayDescriptionJournal}>{selectedDayTrip?.description}</div>
@@ -415,6 +443,52 @@ export const Trip = () => {
             </div>
           </div>
         </div>
+        <div
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: '0',
+            width: '100%',
+            height: '230%',
+            backgroundColor: '#F8F7F1',
+            zIndex: '-1',
+          }}
+        ></div>
+        {suggestedTrips.length > 0 && (
+          <div className={styles.suggestedTripContainer} style={{ marginBottom: '40px' }}>
+            <h2 className={styles.title} style={{ marginBottom: '40px' }}>Related users’ trips</h2>
+
+            <Swiper
+              className={styles.tripWrapper}
+              slidesPerView={1}
+              freeMode={true}
+              breakpoints={{
+                640: {
+                  slidesPerView: 1,
+                },
+                768: {
+                  slidesPerView: 2,
+                },
+                1024: {
+                  slidesPerView: 3,
+                },
+              }}
+            >
+              {suggestedTrips.map((trip) => (
+                <SwiperSlide
+                  key={trip.id}
+                  style={{
+                    padding: 0,
+                    margin: 0,
+                    width: 'auto',
+                  }}
+                >
+                  <TravelCard travel={trip} isSwiper={true} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
 
         {id && comments && (
           <div className={styles.containerComments}>

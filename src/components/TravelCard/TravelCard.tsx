@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
+import cn from 'classnames';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { getDownloadURL } from 'firebase/storage';
 import { Pagination } from 'swiper/modules';
@@ -33,6 +34,7 @@ import styles from './travelCard.module.css';
 
 interface Props {
   travel: ITravel;
+  isSwiper?: boolean;
 }
 
 const notifyInfo = (message: string) => {
@@ -42,7 +44,7 @@ const notifyInfo = (message: string) => {
 };
 const notifyError = (message: string) => toast.error(message);
 
-const TravelCard: FC<Props> = ({ travel }) => {
+const TravelCard: FC<Props> = ({ travel, isSwiper = false }) => {
   const { firestoreUser, updateFirestoreUser } = useContext(AuthContext);
   const [imageDownloadUrls, setImageDownloadUrls] = useState<
     { url: string; type: string; description: string }[]
@@ -177,9 +179,8 @@ const TravelCard: FC<Props> = ({ travel }) => {
     setEditModalIsOpen(false);
   }, []);
 
-  console.log('imageDownloadUrls', imageDownloadUrls);
   return (
-    <div className={styles.container}>
+    <div className={cn([styles.container], { isSwiper: styles.containerSwiper })}>
       <div className={styles.mainContainer}>
         <div className={`${styles.gallery} ${styles.hideOnMobile}`}>
           {/* {setting.photos.length > 0 && getLayout.length && getHeight.length ? (

@@ -31,6 +31,16 @@
   transition: 0.3s;
 }
 
+.firstOption {
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
+
+.lastOption {
+  border-bottom-left-radius: 24px;
+  border-bottom-right-radius: 24px;
+}
+
 .dropdownContent {
   position: absolute;
   border-radius: 24px;
@@ -47,7 +57,7 @@
 }
 
 .dropdownContentOpen {
-  padding: 20px;
+  padding: 8px, 16px;
 }
 
 .dropdownContent div {

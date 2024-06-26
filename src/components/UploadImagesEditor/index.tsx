@@ -54,6 +54,8 @@ const UploadImagesEditor: React.FC<Props> = ({ file, handleChange, handleRemove 
     sliderRef.current.swiper.slideNext();
   };
 
+  const isVideo = (file: File) => file.type.startsWith('video');
+
   return (
     <div className={styles.fileLoaderContainer}>
       {file.length === 0 ? (
@@ -73,7 +75,11 @@ const UploadImagesEditor: React.FC<Props> = ({ file, handleChange, handleRemove 
         </FileUploader>
       ) : file.length === 1 ? (
         <div className={styles.singleImageContainer}>
-          <img src={URL.createObjectURL(file[0])} alt='Uploaded' className={styles.singleImage} />
+          {isVideo(file[0]) ? (
+            <video src={URL.createObjectURL(file[0])} controls className={styles.singleImage} />
+          ) : (
+            <img src={URL.createObjectURL(file[0])} alt='Uploaded' className={styles.singleImage} />
+          )}
           <button
             onClick={(e) => handleRemove(e, file[0].name)}
             className={styles.removePhotoButton}
@@ -87,7 +93,7 @@ const UploadImagesEditor: React.FC<Props> = ({ file, handleChange, handleRemove 
             types={fileTypes}
             hoverTitle={' '}
           >
-            <div className={styles.uploadContainerWithImagesSingle}>
+            <div className={isVideo(file[0]) ? styles.uploadContainerWithVideoSingle : styles.uploadContainerWithImagesSingle}>
               <div className={styles.buttonUploadPlus}>
                 <img src={plus} alt='downloadButton' />
               </div>
@@ -107,7 +113,11 @@ const UploadImagesEditor: React.FC<Props> = ({ file, handleChange, handleRemove 
             >
               {file.map((file) => (
                 <SwiperSlide key={file.name} className={styles.swiperSlide}>
-                  <img src={URL.createObjectURL(file)} alt='Uploaded' className={styles.image} />
+                  {isVideo(file) ? (
+                    <video src={URL.createObjectURL(file)} controls className={styles.image} />
+                  ) : (
+                    <img src={URL.createObjectURL(file)} alt='Uploaded' className={styles.image} />
+                  )}
                   <button
                     onClick={(e) => handleRemove(e, file.name)}
                     className={styles.removePhotoButton}

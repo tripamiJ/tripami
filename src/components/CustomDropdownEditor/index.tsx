@@ -50,11 +50,16 @@ const CustomDropdownEditor: React.FC<Props> = ({
       </div>
       <div className={cn(styles.dropdownContent, { [styles.dropdownContentOpen]: isOpen })}>
         {isOpen &&
-          options.map((option) => (
-            <div key={option} onClick={() => handleOptionClick(option)} className={styles.option}>
+          options.map((option, index) => (
+            <div
+              key={option}
+              onClick={() => handleOptionClick(option)}
+              className={`${styles.option} ${index === 0 ? styles.firstOption : ''} ${index === options.length - 1 ? styles.lastOption : ''}`}
+            >
               {option}
             </div>
-          ))}
+          ))
+        }
       </div>
     </div>
   );

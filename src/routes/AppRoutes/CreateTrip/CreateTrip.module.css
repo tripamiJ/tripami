@@ -42,6 +42,10 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  background-image: url('../../../assets/images/background_profile.jpg');
+  background-size: contain;
+  object-fit: contain;
+  background-repeat: no-repeat;
 }
 
 .outer_container {
@@ -51,12 +55,11 @@
   max-width: 1440px;
   width: 100%;
   padding: 40px 40px 48px 40px;
-  margin: 0, 40px, 69px;
   margin-top: 0;
   margin-bottom: 69px;
   border-radius: 96px;
   border: 1px solid #EEEEEA;
-  background-color: #F8F7F1;
+  background-color: rgba(254, 254, 254, 0.7);
   box-shadow: 0px 4px 40px 0px #DEDED780;
 }
 
@@ -99,6 +102,10 @@
   cursor: pointer;
   border: 2px solid transparent;
   transition: border-color 0.3s;
+}
+
+.datePicker {
+  width: 89%;
 }
 
 .button:hover {
@@ -425,9 +432,8 @@
 .selectedTagsContainer {
   align-items: center;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: 80%;
+  gap: 5px;
+  width: 100%;
   z-index: 0;
 
   margin-bottom: 32px;
@@ -852,7 +858,15 @@
 
 .dateButtonsContainer {
   display: flex;
-  gap: 10px;
+  justify-content: flex-start;
+  align-self: flex-start;
+  width: 60%;
+}
+
+.swiperWrapper {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .dailyJournal {

@@ -86,7 +86,7 @@
     /* max-width: 100%; */
     width: 100%;
     /* min-height: 200px; */
-    max-height: 250px;
+    max-height: 225px;
     object-fit: cover;
     flex-grow: 1;
     border-radius: 32px;

@@ -25,7 +25,8 @@ import {
 } from 'firebase/firestore';
 import { getDownloadURL } from 'firebase/storage';
 import moment from 'moment';
-import { DateRangePicker } from 'rsuite';
+import { DatePicker, DateRangePicker } from 'rsuite';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { v4 as uuidv4 } from 'uuid';
 import { create } from 'zustand';
 import Plus from '~/assets/icons/plus.svg';
@@ -107,6 +108,10 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
     end ? [end[2], end[1], end[0]].join('-') : moment().format('yyyy-MM-DD')
   );
 
+  console.log('startDate', startDate);
+  console.log('endDate', endDate);
+
+  const { after } = DateRangePicker;
   const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState(data?.text || '');
   // const [selectedLocation, setSelectedLocation] = useState<string | null>(
@@ -734,12 +739,21 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
   };
 
   const handleDateChange = (dates: [Date | null, Date | null]) => {
-    const [start, end] = dates;
-    const startDateString = start ? start.toISOString() : '';
-    const endDateString = end ? end.toISOString() : '';
+    let startDate = dates[0];
+    let endDate = dates[1];
+
+    const startDateString = startDate ? startDate.toISOString() : '';
+    const endDateString = endDate ? endDate.toISOString() : '';
 
     setStartDate(startDateString);
     setEndDate(endDateString);
+  };
+
+  const handleDateChangePicker = (date: Date) => {
+    setStartDate(date.toISOString());
+    if (activeTab === 'Current') {
+      setEndDate(new Date().toISOString());
+    }
   };
 
   return (
@@ -765,17 +779,30 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
                 <div className={styles.dateContainer}>
                   {/* <div className={styles.oneDateContainer}> */}
                   {/* <p className={`${styles.text} ${styles.dateDescription}`}>Start Date:</p> */}
-                  <DateRangePicker
-                    selected={new Date(startDate)}
-                    onChange={handleDateChange}
-                    startDate={new Date(startDate)}
-                    endDate={new Date(endDate)}
-                    selectsRange={true}
-                    size='sm'
-                    appearance='subtle'
-                    placeholder='Trip Length'
-                    showOneCalendar
-                  />
+                  {activeTab === 'Finished' ? (
+                    <DateRangePicker
+                      selected={new Date(startDate)}
+                      onChange={handleDateChange}
+                      startDate={new Date(startDate)}
+                      endDate={new Date(endDate)}
+                      // selectsRange={true}
+                      size='sm'
+                      appearance='subtle'
+                      placeholder='Trip Length'
+                      showOneCalendar
+                      shouldDisableDate={after(new Date())}
+                    />
+                  ) : (
+                    <DatePicker
+                      selected={new Date(startDate)}
+                      onChange={handleDateChangePicker}
+                      placeholder='Trip Length'
+                      locale='en-US'
+                      size='sm'
+                      className={styles.datePicker}
+                      appearance='subtle'
+                    />
+                  )}
                   {/* <input
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
@@ -1105,23 +1132,25 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
                 </div>
               </div>
 
-              {selectedGeoTags.length ? (
-                <div className={styles.selectedTagsContainer}>
-                  <>
+              <div className={styles.selectedTagsContainer}>
+                {selectedGeoTags.length ? (
+                  <Swiper slidesPerView={3}>
                     {selectedGeoTags.map((geoTag) => (
-                      <div className={styles.geoTagContainer} key={geoTag.placeID}>
-                        <img src={geotagFilled} alt='geotagFilled' />
-                        <p className={styles.geotagTitle}>{geoTag.address.split(',')[0]}</p>
-                        <img
-                          src={Plus}
-                          className={styles.crossIcon}
-                          onClick={() => handleRemoveGeoTag(geoTag.placeID)}
-                        />
-                      </div>
+                      <SwiperSlide key={geoTag.placeID}>
+                        <div className={styles.geoTagContainer}>
+                          <img src={geotagFilled} alt='geotagFilled' />
+                          <p className={styles.geotagTitle}>{geoTag.address.split(',')[0]}</p>
+                          <img
+                            src={Plus}
+                            className={styles.crossIcon}
+                            onClick={() => handleRemoveGeoTag(geoTag.placeID)}
+                          />
+                        </div>
+                      </SwiperSlide>
                     ))}
-                  </>
-                </div>
-              ) : null}
+                  </Swiper>
+                ) : null}
+              </div>
             </div>
 
             <div className={styles.storyContainer}>
@@ -1143,26 +1172,33 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
               Daily Journal
             </button> */}
               <div className={styles.dailyJournal}>
-                <div className={styles.dateButtonsContainer}>
-                  {dailyInfo.map((day) => {
-                    const { date } = day;
-                    const isDateFilled =
-                      day.photos.length > 0 || day.place.length > 0 || day.description;
-                    const parsedDate = new Date(date);
+                <div className={styles.swiperWrapper}>
+                  <Swiper
+                    spaceBetween={10}
+                    slidesPerView={3}
+                    className={styles.dateButtonsContainer}
+                  >
+                    {dailyInfo.map((day) => {
+                      const { date } = day;
+                      const isDateFilled =
+                        day.photos.length > 0 || day.place.length > 0 || day.description;
+                      const parsedDate = new Date(date);
 
-                    return (
-                      <button
-                        key={parsedDate.toDateString()}
-                        onClick={(e) => handleDateClick(e, parsedDate)}
-                        className={cn(styles.buttonCustom, {
-                          [styles.selected]: formatedDate(selectedDate) === date,
-                          [styles.dateFilled]: isDateFilled,
-                        })}
-                      >
-                        {isValid(parsedDate) ? format(parsedDate, 'dd/MM') : 'Invalid Date'}
-                      </button>
-                    );
-                  })}
+                      return (
+                        <SwiperSlide key={parsedDate.toDateString()}>
+                          <button
+                            onClick={(e) => handleDateClick(e, parsedDate)}
+                            className={cn(styles.buttonCustom, {
+                              [styles.selected]: formatedDate(selectedDate) === date,
+                              [styles.dateFilled]: isDateFilled,
+                            })}
+                          >
+                            {isValid(parsedDate) ? format(parsedDate, 'dd/MM') : 'Invalid Date'}
+                          </button>
+                        </SwiperSlide>
+                      );
+                    })}
+                  </Swiper>
                 </div>
                 <DailyUploadImagesEditor
                   handleChange={handleChangePhotoDaily}
