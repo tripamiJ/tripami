@@ -1,20 +1,24 @@
-import Intro from "../../../components/Intro";
-import Header from "../../../components/Header";
-import PostItem from "../../../components/Posts";
-import styles from './intro.module.css';
-import React, {useContext, useEffect, useMemo, useState} from "react";
-import {AuthContext} from "~/providers/authContext";
+import React, { useContext, useEffect, useMemo, useState } from 'react';
+
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { firebaseErrors } from '~/constants/firebaseErrors';
+import { useWindowDimensions } from '~/hooks/useWindowDimensions';
+import { AuthContext } from '~/providers/authContext';
+import { postsCollection } from '~/types/firestoreCollections';
+import { IPost } from '~/types/post';
+
+import { getDocs, limit, orderBy, query } from '@firebase/firestore';
+
+import Header from '../../../components/Header';
+import Intro from '../../../components/Intro';
+import PostItem from '../../../components/Posts';
+import styles from './intro.module.css';
+
 import 'swiper/css';
-import {useWindowDimensions} from "~/hooks/useWindowDimensions";
-import {getDocs, limit, orderBy, query} from "@firebase/firestore";
-import {postsCollection} from "~/types/firestoreCollections";
-import {IPost} from "~/types/post";
-import {firebaseErrors} from "~/constants/firebaseErrors";
 
 const LoginPage = () => {
-  const {firestoreUser} = useContext(AuthContext);
-  const {width} = useWindowDimensions();
+  const { firestoreUser } = useContext(AuthContext);
+  const { width } = useWindowDimensions();
   const [isPostsLoading, setIsPostsLoading] = useState(false);
   const [posts, setPosts] = useState<IPost[]>([]);
 
@@ -24,12 +28,12 @@ const LoginPage = () => {
         try {
           setIsPostsLoading(true);
           const q = query(
-            postsCollection,
+            postsCollection
             // orderBy('comments_count', 'desc'),
             // limit(10),
           );
           const querySnapshot = await getDocs(q);
-          const fetchedPosts = querySnapshot.docs.map(doc => ({
+          const fetchedPosts = querySnapshot.docs.map((doc) => ({
             ...doc.data(),
             id: doc.id,
           }));
@@ -63,13 +67,10 @@ const LoginPage = () => {
         <h5 className={styles.title}>Trending today</h5>
 
         <div className={styles.sliderContainer}>
-          <Swiper
-            spaceBetween={30}
-            slidesPerView={getSlidesPerPage}
-          >
-            {posts?.map(post => (
+          <Swiper spaceBetween={30} slidesPerView={getSlidesPerPage}>
+            {posts?.map((post) => (
               <SwiperSlide key={post.id}>
-                <PostItem postData={post}/>
+                <PostItem postData={post} />
               </SwiperSlide>
             ))}
           </Swiper>

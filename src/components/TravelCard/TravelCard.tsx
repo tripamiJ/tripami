@@ -180,21 +180,46 @@ const TravelCard: FC<Props> = ({ travel, isSwiper = false }) => {
   }, []);
 
   return (
-    <div className={cn([styles.container], { isSwiper: styles.containerSwiper })}>
+    <div className={cn(styles.container, { [styles.containerSwiper]: isSwiper })}>
       <div className={styles.mainContainer}>
-        <div className={`${styles.gallery} ${styles.hideOnMobile}`}>
-          {/* {setting.photos.length > 0 && getLayout.length && getHeight.length ? (
+        {/* <div className={`${styles.gallery} ${styles.hideOnMobile}`}> */}
+        {/* {setting.photos.length > 0 && getLayout.length && getHeight.length ? (
             <ReactPhotoCollage {...setting}/>
           ) : null} */}
 
-          {imageDownloadUrls[0] && imageDownloadUrls[0].type.includes('image') ? (
+        {imageDownloadUrls[0] && imageDownloadUrls[0].type.includes('image') ? (
+          <div className={styles.imageContainer}>
+            <img
+              src={imageDownloadUrls[0].url}
+              alt='travel'
+              className={styles.image}
+              onClick={() => {
+                navigate('/trip/' + id, { state: { id: id } });
+                window.scrollTo(0, 0);
+              }}
+            />
+            {imageDownloadUrls.length > 1 && (
+              <div className={styles.photoCount}>
+                <img src={plus} alt='plus' />
+                {`${imageDownloadUrls.length - 1} photos`}
+              </div>
+            )}
+            <div
+              className={`${styles.stage} ${stage === 'Finished' ? styles.finishedTrip : styles.currentTrip}`}
+            >
+              {stage === 'Finished' ? 'Finished' : 'Current'}
+            </div>
+          </div>
+        ) : (
+          imageDownloadUrls &&
+          imageDownloadUrls[0] && (
             <div className={styles.imageContainer}>
-              <img
+              <video
                 src={imageDownloadUrls[0].url}
-                alt='travel'
                 className={styles.image}
+                controls
                 onClick={() => {
-                  navigate('/trip/' + id, { state: { id: id } });
+                  navigate('/trip/' + id);
                   window.scrollTo(0, 0);
                 }}
               />
@@ -210,34 +235,9 @@ const TravelCard: FC<Props> = ({ travel, isSwiper = false }) => {
                 {stage === 'Finished' ? 'Finished' : 'Current'}
               </div>
             </div>
-          ) : (
-            imageDownloadUrls &&
-            imageDownloadUrls[0] && (
-              <div className={styles.imageContainer}>
-                <video
-                  src={imageDownloadUrls[0].url}
-                  className={styles.image}
-                  controls
-                  onClick={() => {
-                    navigate('/trip/' + id);
-                    window.scrollTo(0, 0);
-                  }}
-                />
-                {imageDownloadUrls.length > 1 && (
-                  <div className={styles.photoCount}>
-                    <img src={plus} alt='plus' />
-                    {`${imageDownloadUrls.length - 1} photos`}
-                  </div>
-                )}
-                <div
-                  className={`${styles.stage} ${stage === 'Finished' ? styles.finishedTrip : styles.currentTrip}`}
-                >
-                  {stage === 'Finished' ? 'Finished' : 'Current'}
-                </div>
-              </div>
-            )
-          )}
-        </div>
+          )
+        )}
+        {/* </div> */}
         <div className={styles.textContainer}>
           <h3 className={styles.tripName}>{tripName}</h3>
           {/* <p className={styles.text} style={{ wordBreak: 'break-all', whiteSpace: 'pre-line' }}>

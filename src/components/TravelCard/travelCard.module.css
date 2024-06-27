@@ -2,16 +2,18 @@
     background-color: white;
     border-radius: 32px;
     padding: 8px;
-    width: 40%;
     height: fit-content;
+    width: 40%;
+}
+
+.containerSwiper {
+  width: 100%;
 }
 
 .topContainer {
     display: flex;
     justify-content: space-between;
-
     width: 100%;
-
     margin-bottom: 14px;
 }
 
@@ -105,7 +107,7 @@
     border-radius: 32px;
     background-color: rgba(172, 172, 172, 0.22);
     display: block;
-    width: 100%;
+    /* width: 100%; */
     gap: 2px;
     display: flex;
     flex-wrap: wrap;
@@ -483,7 +485,7 @@
 
 .imageContainer {
   position: relative;
-
+  width: 100%;
 }
 
 .photoCount {

@@ -460,8 +460,10 @@ export const Trip = () => {
 
             <Swiper
               className={styles.tripWrapper}
+              spaceBetween={40}
               slidesPerView={1}
               freeMode={true}
+              loop={true}
               breakpoints={{
                 640: {
                   slidesPerView: 1,
@@ -472,6 +474,9 @@ export const Trip = () => {
                 1024: {
                   slidesPerView: 3,
                 },
+                1400: {
+                  slidesPerView: 4,
+                }
               }}
             >
               {suggestedTrips.map((trip) => (
@@ -480,7 +485,7 @@ export const Trip = () => {
                   style={{
                     padding: 0,
                     margin: 0,
-                    width: 'auto',
+                    width: '300px',
                   }}
                 >
                   <TravelCard travel={trip} isSwiper={true} />

@@ -18,7 +18,7 @@ const HeaderNew: React.FC<HeaderNewProps> = ({ avatar }) => {
           className={styles.logoHeader}
           src={Logo}
           onClick={() =>
-            navigate('/', {
+            navigate('/profile', {
               state: {
                 activeTab: 0,
               },
