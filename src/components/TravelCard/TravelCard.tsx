@@ -14,8 +14,9 @@ import CustomModal from '~/components/CustomModal';
 import Rating from '~/components/Rating';
 import { db, storage } from '~/firebase';
 import { AuthContext } from '~/providers/authContext';
-import { commentsCollection } from '~/types/firestoreCollections';
+import { commentsCollection, usersCollection } from '~/types/firestoreCollections';
 import { ITravel } from '~/types/travel';
+import { IUser } from '~/types/user';
 import { timeAgo } from '~/utils/daysAgo';
 
 import BinIcon from '@assets/icons/BinIcon.svg';
@@ -24,9 +25,10 @@ import Dots from '@assets/icons/dots.svg';
 import plus from '@assets/icons/plus.svg';
 import shareIcon from '@assets/icons/share.svg';
 import TouchIcon from '@assets/icons/touch.svg';
-import { deleteDoc, doc } from '@firebase/firestore';
+import { deleteDoc, doc, documentId } from '@firebase/firestore';
 import { ref } from '@firebase/storage';
 
+import { UserPostInfo } from '../BigPost/UserPostInfo';
 import { DropdownProvider } from '../DropdownProvider/DropdownProvider';
 import { LightBox } from '../Lightbox/LightBox';
 import ShareModal from '../ShareModal/ShareModal';
@@ -49,6 +51,7 @@ const TravelCard: FC<Props> = ({ travel, isSwiper = false }) => {
   const [imageDownloadUrls, setImageDownloadUrls] = useState<
     { url: string; type: string; description: string }[]
   >([]);
+  const [userData, setUserData] = useState<IUser>();
   const {
     startDate,
     endDate,
@@ -179,6 +182,21 @@ const TravelCard: FC<Props> = ({ travel, isSwiper = false }) => {
     setEditModalIsOpen(false);
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (userId) {
+        try {
+          const q = query(usersCollection, where(documentId(), '==', userId));
+          const querySnapshot = await getDocs(q);
+          const fetchedUser = querySnapshot.docs[0].data() as IUser;
+          setUserData(fetchedUser as IUser);
+        } catch (error) {
+          console.log('[ERROR getting user from firestore] => ', error);
+        }
+      }
+    })();
+  }, [userId]);
+
   return (
     <div className={cn(styles.container, { [styles.containerSwiper]: isSwiper })}>
       <div className={styles.mainContainer}>
@@ -189,6 +207,12 @@ const TravelCard: FC<Props> = ({ travel, isSwiper = false }) => {
 
         {imageDownloadUrls[0] && imageDownloadUrls[0].type.includes('image') ? (
           <div className={styles.imageContainer}>
+            {isSwiper && (
+              <div className={styles.userTrip}>
+                <UserPostInfo userData={userData} />
+              </div>
+            )}
+
             <img
               src={imageDownloadUrls[0].url}
               alt='travel'

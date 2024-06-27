@@ -86,36 +86,41 @@ export const Trip = () => {
   const [isModalShareOpen, setIsModalShareOpen] = useState(false);
   const [inFavourites, setInFavourites] = useState(false);
   const [suggestedTrips, setSuggestedTrips] = useState<ITravel[]>([]);
-  console.log(suggestedTrips);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (firestoreUser?.id) {
-      const qu = query(
-        tripsCollection,
-        where('userId', '!=', firestoreUser.id),
-        orderBy('createdAt', 'desc'),
-        limit(10)
-      );
-
-      const unsubscribe = onSnapshot(qu, (querySnapshot) => {
-        const fetchedTrips = querySnapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        setSuggestedTrips(fetchedTrips);
-      });
-
-      return () => unsubscribe();
-    }
-  }, [firestoreUser?.id]);
+  console.log(trip);
 
   useEffect(() => {
     if (trip) {
-      setInFavourites(trip.usersSaved?.includes(firestoreUser?.id));
+      setSelectedDate(new Date(trip.dayDescription[0].date));
     }
   }, [trip]);
+
+  useEffect(() => {
+    const fetchTrips = async () => {
+      if (firestoreUser?.id) {
+        const qu = query(tripsCollection, where('userId', '==', trip?.userId), limit(10));
+
+        const unsubscribe = onSnapshot(qu, (querySnapshot) => {
+          const fetchedTrips = querySnapshot.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          setSuggestedTrips(fetchedTrips);
+        });
+
+        return () => unsubscribe();
+      }
+    };
+
+    fetchTrips();
+  }, [firestoreUser?.id, trip?.userId]);
+
+  useEffect(() => {
+    if (trip && firestoreUser) {
+      setInFavourites(trip.usersSaved?.includes(firestoreUser.id));
+    }
+  }, [trip, firestoreUser]);
 
   useEffect(() => {
     const fetchAvatar = async () => {
@@ -153,15 +158,14 @@ export const Trip = () => {
   }, [trip]);
 
   useEffect(() => {
-    (async () => {
-      const q = query(tripsCollection, where(documentId(), '==', id));
-
-      const querySnapshot = await getDocs(q);
-      const fetchedPost = querySnapshot.docs[0].data() as ITravel;
-      setSelectedDate(new Date(fetchedPost.dayDescription[0].date));
-      setTrip(fetchedPost);
-    })();
-  }, [id]);
+    if (id) {
+      const docRef = doc(db, 'trips', id);
+      const unsubscribe = onSnapshot(docRef, (doc) => {
+        setTrip(doc.data());
+      });
+      return () => unsubscribe();
+    }
+  }, [id, db]);
 
   useEffect(() => {
     (async () => {
@@ -273,21 +277,25 @@ export const Trip = () => {
   };
 
   const handleFavouriteClick = useCallback(async () => {
-    if (trip) {
+    if (trip && firestoreUser && id) {
       const docRef = doc(db, 'trips', id);
-      if (trip.usersSaved?.includes(firestoreUser?.id)) {
+      const userId = firestoreUser.id;
+
+      if (trip.usersSaved?.includes(userId)) {
+        // Видаляємо користувача зі списку збережених
         await updateDoc(docRef, {
-          usersSaved: trip.usersSaved.filter((user) => user !== firestoreUser?.id),
+          usersSaved: trip.usersSaved.filter((user) => user !== userId),
         });
         setInFavourites(false);
       } else {
+        // Додаємо користувача до списку збережених
         await updateDoc(docRef, {
-          usersSaved: [...trip.usersSaved, firestoreUser?.id] || [firestoreUser?.id],
+          usersSaved: trip.usersSaved ? [...trip.usersSaved, userId] : [userId],
         });
         setInFavourites(true);
       }
     }
-  }, [firestoreUser?.firebaseUid, trip?.usersSaved]);
+  }, [firestoreUser, trip, id, db]);
 
   return (
     <div className={(styles.mainContainer, 'mainContainer')}>
@@ -296,14 +304,14 @@ export const Trip = () => {
         <div className={styles.post}>
           <div className={styles.container}>
             <div className={styles.headerTrip}>
-              {userData ? (
+              {userData && (
                 <UserPostInfo
                   userData={userData}
                   userPhotoUrl=''
                   isMasterPage={true}
                   setPosted={setPosted}
                 />
-              ) : null}
+              )}
               <h1 className={styles.title}>{trip?.tripName}</h1>
               <div className={styles.social}>
                 {/* <div className={styles.followButton}>Follow</div> */}
@@ -454,13 +462,15 @@ export const Trip = () => {
             zIndex: '-1',
           }}
         ></div>
-        {suggestedTrips.length > 0 && (
+        {suggestedTrips.length > 0 && firestoreUser?.id !== trip?.userId && (
           <div className={styles.suggestedTripContainer} style={{ marginBottom: '40px' }}>
-            <h2 className={styles.title} style={{ marginBottom: '40px' }}>Related users’ trips</h2>
+            <h2 className={styles.title} style={{ marginBottom: '40px' }}>
+              Related users’ trips
+            </h2>
 
             <Swiper
               className={styles.tripWrapper}
-              spaceBetween={40}
+              spaceBetween={10}
               slidesPerView={1}
               freeMode={true}
               loop={true}
@@ -472,11 +482,11 @@ export const Trip = () => {
                   slidesPerView: 2,
                 },
                 1024: {
-                  slidesPerView: 3,
+                  slidesPerView: 2,
                 },
                 1400: {
-                  slidesPerView: 4,
-                }
+                  slidesPerView: 3,
+                },
               }}
             >
               {suggestedTrips.map((trip) => (

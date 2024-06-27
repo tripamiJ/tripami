@@ -1174,9 +1174,10 @@ const CreateTrip: React.FC<Props> = ({ isEdit, data }) => {
               <div className={styles.dailyJournal}>
                 <div className={styles.swiperWrapper}>
                   <Swiper
-                    spaceBetween={10}
+                    spaceBetween={20}
                     slidesPerView={3}
                     className={styles.dateButtonsContainer}
+                    style={{ margin: '0', flexDirection: 'column' }}
                   >
                     {dailyInfo.map((day) => {
                       const { date } = day;
